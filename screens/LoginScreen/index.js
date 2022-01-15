@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { login } from "../../api/auth";
 
-export default function App() {
+export default function App({ navigation }) {
   const [loginId, setLoginId] = useState("");
   const [loginPw, setLoginPw] = useState("");
 
@@ -17,6 +17,7 @@ export default function App() {
     const { status, token } = await login({ loginId, loginPw });
     if (status) {
       Alert.alert(token);
+      navigation.navigate("Home");
     } else {
       Alert.alert("로그인 실패");
     }
