@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       <StatusBar style="auto" />
-      <NavigationContainer>
+      <NavigationContainer independent={true}>
         <Stack.Navigator
           initialRouteName="Start"
           screenOptions={{

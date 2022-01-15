@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -10,10 +10,26 @@ import {
 } from "react-native";
 import background from "../../assets/town.png";
 import home from "../../assets/home2.png";
+import friendicon from "../../assets/friendicon2.png";
+import FriendModal from "../../components/FriendModal/FriendModal";
 
 const HomeScreen = ({ navigation }) => {
+  const [FriendModalVisible, setFriendModalVisible] = useState(false);
+
+  const openFriendModal = () => {
+    setFriendModalVisible(true);
+  };
+
+  const closeFriendModal = () => {
+    setFriendModalVisible(false);
+  };
+
   const HomeClickHandler = () => {
     navigation.navigate("MyRoom");
+  };
+
+  const FriendClickHandler = () => {
+    Alert.alert("Friend");
   };
 
   return (
@@ -23,9 +39,22 @@ const HomeScreen = ({ navigation }) => {
         resizeMode="cover"
         style={styles.backgroundimage}
       >
-        <TouchableOpacity onPress={HomeClickHandler}>
-          <Image source={home} resizeMode="cover" style={styles.image} />
+        <TouchableOpacity
+          style={styles.homeiconstyle}
+          onPress={HomeClickHandler}
+        >
+          <Image source={home} resizeMode="cover" style={styles.home} />
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.friendiconstyle}
+          onPress={openFriendModal}
+        >
+          <Image source={friendicon} resizeMode="cover" style={styles.friend} />
+        </TouchableOpacity>
+        <FriendModal
+          open={FriendModalVisible}
+          close={closeFriendModal}
+        ></FriendModal>
       </ImageBackground>
     </View>
   );
@@ -39,6 +68,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  homeiconstyle: {
+    flex: 1,
+    height: "80%",
+    width: "80%",
+    top: "20%",
+    position: "absolute",
+  },
+  friendiconstyle: {
+    flex: 1,
+    height: "20%",
+    width: "20%",
+    position: "absolute",
+    top: "0%",
+    right: "0%",
+  },
   text: {
     color: "white",
     fontSize: 42,
@@ -47,11 +91,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "#000000c0",
   },
-  image: {
-    height: "60%",
-    width: "auto",
-    // position: "absolute",
-    top: "35%",
+  home: {
+    height: "100%",
+    width: "100%",
+
+    resizeMode: "contain",
+  },
+  friend: {
+    height: "100%",
+    width: "100%",
     resizeMode: "contain",
   },
 });
