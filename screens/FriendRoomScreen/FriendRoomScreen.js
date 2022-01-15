@@ -14,7 +14,10 @@ import book from "../../assets/book.png";
 import music from "../../assets/recordplayer.png";
 import BookModal from "../../components/BookModal/BookModal";
 
-const MyRoomScreen = ({ navigation }) => {
+const FriendRoomScreen = ({ navigation }) => {
+  const location = useLocation
+
+  const user = location.state?.user;
   const [bookModalVisible, setbookModalVisible] = useState(false);
 
   const openBookModal = () => {
@@ -95,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyRoomScreen;
+export default FriendRoomScreen;
