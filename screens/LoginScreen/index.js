@@ -19,9 +19,12 @@ export default function App({ navigation }) {
     const { status, token } = await login({ loginId, loginPw });
     if (status) {
       Alert.alert(token);
-      navigation.navigate("Home");
       saveJwt(token);
       request.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Home" }],
+      });
     } else {
       Alert.alert("로그인 실패");
     }
