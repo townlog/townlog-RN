@@ -1,7 +1,21 @@
 import React from "react";
 import { StyleSheet, View, Button } from "react-native";
+import request from "../../api/axios";
+import { getJwt } from "../../utils/auth";
 
 const FirstPage = ({ navigation }) => {
+  React.useEffect(() => {
+    (async () => {
+      const token = await getJwt();
+      console.log(`token`, token);
+      if (token) {
+        request.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        navigation.navigate("Home");
+      }
+    })();
+    return () => {};
+  }, []);
+
   const moveToLogin = () => {
     navigation.navigate("Login");
   };

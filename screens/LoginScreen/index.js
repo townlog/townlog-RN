@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { login } from "../../api/auth";
 import request from "../../api/axios";
+import { saveJwt } from "../../utils/auth";
 
 export default function App({ navigation }) {
   const [loginId, setLoginId] = useState("");
@@ -19,6 +20,7 @@ export default function App({ navigation }) {
     if (status) {
       Alert.alert(token);
       navigation.navigate("Home");
+      saveJwt(token);
       request.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     } else {
       Alert.alert("로그인 실패");
