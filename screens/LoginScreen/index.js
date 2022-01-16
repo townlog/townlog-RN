@@ -8,6 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { login } from "../../api/auth";
+import request from "../../api/axios";
 
 export default function App({ navigation }) {
   const [loginId, setLoginId] = useState("");
@@ -18,6 +19,7 @@ export default function App({ navigation }) {
     if (status) {
       Alert.alert(token);
       navigation.navigate("Home");
+      request.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     } else {
       Alert.alert("로그인 실패");
     }

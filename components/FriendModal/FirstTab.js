@@ -8,6 +8,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { SearchUser } from "../../api/friend";
 import FriendProfileTab1 from "../FriendProfile/FriendProfileTab1";
@@ -18,10 +19,11 @@ const FirstTab = () => {
   const [frienduser, setFrienduser] = useState("");
   const [name, setName] = useState("");
   const handleOnChange = (e) => {
-    setName(e.target.value);
+    setName(e);
   };
   const onSearchClick = async () => {
     const { status, user } = await SearchUser(name);
+    Alert.alert(`response ${(status, user)}`);
     if (status) {
       setSearch(true);
       setFrienduser(user);
@@ -32,7 +34,7 @@ const FirstTab = () => {
       <TextInput
         style={styles.input}
         placehodler="nickname"
-        onChange={handleOnChange}
+        onChangeText={handleOnChange}
       />
       <TouchableOpacity
         style={[styles.button, styles.buttonSearch]}
@@ -40,13 +42,16 @@ const FirstTab = () => {
       >
         <Text style={{ textAlign: "center" }}>Search</Text>
       </TouchableOpacity>
-      <View style={{ height: "100%", width: "100%" }}>
+      <View
+        style={{
+          height: "100%",
+          width: "100%",
+        }}
+      >
         {search ? (
-          <View style={{ height: "100%", width: "100%" }}>
-            <FriendProfileTab1 user={frienduser}></FriendProfileTab1>
-          </View>
+          <FriendProfileTab1 user={frienduser}></FriendProfileTab1>
         ) : (
-          <Text>none</Text>
+          <Text>{search}dddd</Text>
         )}
       </View>
     </View>
@@ -57,27 +62,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
+    flexWrap: "wrap",
   },
   button: {
-    margin: 10,
+    margin: 7,
     padding: 10,
     elevation: 2,
     borderRadius: 20,
     height: 40,
     width: "20%",
-    right: "2%",
+    top: "3%",
   },
 
   buttonSearch: {
     backgroundColor: "lightgray",
+    top: "3%",
   },
   input: {
     height: 40,
     width: "70%",
-    margin: 12,
+    margin: 7,
     borderWidth: 1,
     padding: 10,
     borderColor: "lightgray",
+    top: "3%",
   },
 });
 
