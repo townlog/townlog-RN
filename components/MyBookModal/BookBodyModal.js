@@ -8,6 +8,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import BookList from "./MyBookList";
 import plus from "../../assets/plus2.png";
@@ -41,18 +42,18 @@ const BookBodyModal = (props) => {
                     <Image source={plus} style={styles.plusimage}></Image>
                   </TouchableOpacity>
                 </View>
-                <View
+                <ScrollView
                   style={{
                     flex: 1,
-                    flexDirection: "row",
                     height: "100%",
                     width: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    alignContent: "center",
+                    padding: 20,
+                    margin: 30,
                   }}
                 >
                   <Text> {body} </Text>
-                </View>
+                </ScrollView>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={close}
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
-    flex: 0.9,
+    flex: 0.4,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 20,

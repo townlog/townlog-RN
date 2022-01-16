@@ -8,12 +8,14 @@ import {
   View,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
-import BookList from "./MyBookList";
 import plus from "../../assets/plus2.png";
 
-const MyBookModal = (props) => {
-  const { open, close } = props;
+const MusicBodyModal = (props) => {
+  const { open, close, musics } = props;
+  const { id, title, body } = musics;
+
   return (
     <View>
       {open ? (
@@ -27,7 +29,7 @@ const MyBookModal = (props) => {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <View style={styles.modalTop}>
-                  <Text style={styles.modalTitle}>My Book List</Text>
+                  <Text style={styles.modalTitle}>{title}</Text>
                   <TouchableOpacity
                     style={{
                       width: "10%",
@@ -39,17 +41,18 @@ const MyBookModal = (props) => {
                     <Image source={plus} style={styles.plusimage}></Image>
                   </TouchableOpacity>
                 </View>
-                <View
+                <ScrollView
                   style={{
                     flex: 1,
-                    flexDirection: "row",
-                    height: "90%",
+                    height: "100%",
                     width: "100%",
-                    flexWrap: "wrap",
+                    alignContent: "center",
+                    padding: 20,
+                    margin: 30,
                   }}
                 >
-                  <BookList></BookList>
-                </View>
+                  <Text> {body} </Text>
+                </ScrollView>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={close}
@@ -74,7 +77,7 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
-    flex: 0.9,
+    flex: 0.4,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 20,
@@ -97,7 +100,7 @@ const styles = StyleSheet.create({
   },
 
   buttonClose: {
-    backgroundColor: "lightblue",
+    backgroundColor: "#2196F3",
   },
   textStyle: {
     color: "white",
@@ -108,16 +111,16 @@ const styles = StyleSheet.create({
     flex: 0.1,
     width: "100%",
     height: "10%",
-    textAlign: "center",
+    alignContent: "center",
     flexDirection: "row",
     flexWrap: "wrap",
+    justifyContent: "center",
   },
   modalTitle: {
     textAlign: "center",
     fontSize: 30,
     fontWeight: "bold",
     position: "absolute",
-    left: "20%",
     top: "2%",
     color: "lightblue",
   },
@@ -130,4 +133,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyBookModal;
+export default MusicBodyModal;

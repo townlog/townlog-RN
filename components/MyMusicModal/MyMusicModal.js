@@ -1,8 +1,18 @@
 import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
-import BookList from "./MyBookList";
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import plus from "../../assets/plus2.png";
+import MusicList from "./MyMusicList";
 
-const BookModal = (props) => {
+const MyMusicModal = (props) => {
   const { open, close } = props;
   return (
     <View>
@@ -16,9 +26,30 @@ const BookModal = (props) => {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalTitle}>My Book List</Text>
-
-                <BookList></BookList>
+                <View style={styles.modalTop}>
+                  <Text style={styles.modalTitle}>My Music List</Text>
+                  <TouchableOpacity
+                    style={{
+                      width: "10%",
+                      height: "50%",
+                      position: "absolute",
+                      right: "0%",
+                    }}
+                  >
+                    <Image source={plus} style={styles.plusimage}></Image>
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    height: "90%",
+                    width: "100%",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <MusicList></MusicList>
+                </View>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={close}
@@ -41,7 +72,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22,
   },
+
   modalView: {
+    flex: 0.9,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 20,
@@ -64,19 +97,37 @@ const styles = StyleSheet.create({
   },
 
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "lightblue",
   },
   textStyle: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
   },
+  modalTop: {
+    flex: 0.1,
+    width: "100%",
+    height: "10%",
+    textAlign: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
   modalTitle: {
-    marginBottom: 15,
     textAlign: "center",
     fontSize: 30,
     fontWeight: "bold",
+    position: "absolute",
+    left: "20%",
+    top: "2%",
+    color: "lightblue",
+  },
+  plusimage: {
+    height: "100%",
+    width: "100%",
+    right: "5%",
+    resizeMode: "contain",
+    tintColor: "lightblue",
   },
 });
 
-export default BookModal;
+export default MyMusicModal;

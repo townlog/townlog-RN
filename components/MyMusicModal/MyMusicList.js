@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
-import { getMyBooks } from "../../api/furnitures";
-import BookItem from "./BookItem";
+import { getMyMusics } from "../../api/furnitures";
+import MusicItem from "./MusicItem";
 
-const BookList = () => {
-  const [BookList, setBookList] = useState([]);
-  const getMyBookList = async () => {
-    const { books } = await getMyBooks();
-    setBookList(books);
+const MusicList = () => {
+  const [MusicList, setMusicList] = useState([]);
+  const getMyMusicList = async () => {
+    const { musics } = await getMyMusics();
+    setMusicList(musics);
   };
   useEffect(() => {
-    getMyBookList();
+    getMyMusicList();
   }, []);
   return (
     <View style={styles.container}>
-      {BookList.map((e) => (
-        <BookItem books={e}></BookItem>
+      {MusicList.map((e) => (
+        <MusicItem musics={e}></MusicItem>
       ))}
     </View>
   );
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
 });
-export default BookList;
+export default MusicList;
