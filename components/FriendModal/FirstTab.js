@@ -12,8 +12,10 @@ import {
 } from "react-native";
 import { SearchUser } from "../../api/friend";
 import FriendProfileTab1 from "../FriendProfile/FriendProfileTab1";
+import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
-const FirstTab = () => {
+const FirstTab = ({ route }) => {
+  const { close } = route.params;
   const [search, setSearch] = useState(false);
 
   const [frienduser, setFrienduser] = useState("");
@@ -23,7 +25,6 @@ const FirstTab = () => {
   };
   const onSearchClick = async () => {
     const { status, user } = await SearchUser(name);
-    Alert.alert(`response ${(status, user)}`);
     if (status) {
       setSearch(true);
       setFrienduser(user);
@@ -32,8 +33,9 @@ const FirstTab = () => {
   return (
     <View style={styles.container}>
       <TextInput
+        placeholder="nickname"
+        placeholderTextColor="lightgray"
         style={styles.input}
-        placehodler="nickname"
         onChangeText={handleOnChange}
       />
       <TouchableOpacity
@@ -49,7 +51,10 @@ const FirstTab = () => {
         }}
       >
         {search ? (
-          <FriendProfileTab1 user={frienduser}></FriendProfileTab1>
+          <FriendProfileTab1
+            user={frienduser}
+            close={close}
+          ></FriendProfileTab1>
         ) : null}
       </View>
     </View>

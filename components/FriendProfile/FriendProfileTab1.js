@@ -1,10 +1,23 @@
 import React, { useState } from "react";
 import { makeFriendRequest } from "../../api/friend.js";
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Text, Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const FriendProfileTab1 = ({ user }) => {
+const FriendProfileTab1 = (props) => {
+  const navigation = useNavigation();
+  const { user, close } = props;
   const FriendPressHandler = async () => {
-    await makeFriendRequest(user.id);
+    const { status } = await makeFriendRequest(user.id);
+    if (status) {
+      Alert.alert("친구 요청이 완료되었습니다.");
+      return;
+    } else {
+      Alert.alert("이미 친구입니다.");
+    }
+  };
+  const RoomPressHandler = () => {
+    close();
+    navigation.getParent().navigate("FriendRoom", { user });
   };
   return (
     <View style={styles.container}>
@@ -18,7 +31,10 @@ const FriendProfileTab1 = ({ user }) => {
             flexDirection: "row",
           }}
         >
-          <TouchableOpacity style={[styles.button, styles.buttonBody]}>
+          <TouchableOpacity
+            onPress={RoomPressHandler}
+            style={[styles.button, styles.buttonBody]}
+          >
             <Text style={styles.textStyle}>방 구경</Text>
           </TouchableOpacity>
           <TouchableOpacity

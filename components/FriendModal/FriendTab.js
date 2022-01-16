@@ -15,16 +15,19 @@ import SecondTab from "./SecondTab";
 import ThirdTab from "./ThirdTab";
 
 const Tab = createMaterialTopTabNavigator();
-const FriendTab = () => {
+const FriendTab = (props) => {
+  const { close } = props;
   return (
     <View style={styles.container}>
-      <NavigationContainer independent={true}>
-        <Tab.Navigator>
-          <Tab.Screen name="SearchFriend" component={FirstTab} />
-          <Tab.Screen name="SecondTab" component={SecondTab} />
-          <Tab.Screen name="ThirdTab" component={ThirdTab} />
-        </Tab.Navigator>
-      </NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Search"
+          component={FirstTab}
+          initialParams={{ close }}
+        />
+        <Tab.Screen name="Friend List" component={SecondTab} />
+        <Tab.Screen name="Request" component={ThirdTab} />
+      </Tab.Navigator>
     </View>
   );
 };
