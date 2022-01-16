@@ -12,7 +12,7 @@ import background from "../../assets/room4.png";
 import study from "../../assets/study.png";
 import book from "../../assets/book.png";
 import music from "../../assets/recordplayer.png";
-import BookModal from "../../components/BookModal/BookModal";
+import BookModal from "../../components/MyBookModal/MyBookModal";
 
 const MyRoomScreen = ({ navigation }) => {
   const [bookModalVisible, setbookModalVisible] = useState(false);

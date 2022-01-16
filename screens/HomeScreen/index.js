@@ -70,17 +70,17 @@ const styles = StyleSheet.create({
   },
   homeiconstyle: {
     flex: 1,
-    height: "80%",
+    height: "45%",
     width: "80%",
-    top: "20%",
+    top: "40%",
     position: "absolute",
   },
   friendiconstyle: {
     flex: 1,
-    height: "20%",
+    height: "10%",
     width: "20%",
     position: "absolute",
-    top: "0%",
+    top: "5%",
     right: "0%",
   },
   text: {
