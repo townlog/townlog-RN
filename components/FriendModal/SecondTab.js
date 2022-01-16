@@ -3,9 +3,9 @@ import { Alert, Text, View } from "react-native";
 import { getMyFriends } from "../../api/friend";
 import FriendProfileTab2 from "../FriendProfile/FriendProfileTab2";
 
-const SecondTab = () => {
+const SecondTab = ({ route }) => {
   const [FriendList, setFriendList] = useState([]);
-
+  const { close } = route.params;
   const getFriendList = async () => {
     const { users } = await getMyFriends();
     setFriendList(users);
@@ -22,7 +22,7 @@ const SecondTab = () => {
       }}
     >
       {FriendList.map((e) => (
-        <FriendProfileTab2 user={e} />
+        <FriendProfileTab2 user={e} close={close} />
       ))}
     </View>
   );

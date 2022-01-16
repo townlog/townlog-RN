@@ -25,7 +25,11 @@ const FriendTab = (props) => {
           component={FirstTab}
           initialParams={{ close }}
         />
-        <Tab.Screen name="Friend List" component={SecondTab} />
+        <Tab.Screen
+          name="Friend List"
+          component={SecondTab}
+          initialParams={{ close }}
+        />
         <Tab.Screen name="Request" component={ThirdTab} />
       </Tab.Navigator>
     </View>
