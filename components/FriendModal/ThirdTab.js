@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import FriendProfileTab3 from "../FriendProfile/FriendProfileTab3";
+import { getFriendRequest } from "../../api/friend";
 
 const ThirdTab = () => {
   const [requestList, setrequestList] = useState([]);
@@ -14,9 +15,18 @@ const ThirdTab = () => {
     getRequestList();
   }, []);
   return (
-    <View>
+    <View
+      style={{
+        height: "100%",
+        width: "100%",
+      }}
+    >
       {requestList.map((e) => (
-        <FriendProfileTab3 key={e.id} user={e} position="absolute" bottom="0" />
+        <FriendProfileTab3
+          key={e.id}
+          user={e}
+          getRequestList={getRequestList}
+        />
       ))}
     </View>
   );

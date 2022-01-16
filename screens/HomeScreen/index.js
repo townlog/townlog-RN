@@ -53,7 +53,7 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
         <FriendModal
           open={FriendModalVisible}
-          close={closeFriendModal}
+          close={setFriendModalVisible}
         ></FriendModal>
       </ImageBackground>
     </View>

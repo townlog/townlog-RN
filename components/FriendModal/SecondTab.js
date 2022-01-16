@@ -11,17 +11,18 @@ const SecondTab = () => {
     setFriendList(users);
   };
 
-  //   useEffect(() => {
-  //     getFriendList();
-  //   }, []);
+  useEffect(() => {
+    getFriendList();
+  }, []);
 
   return (
-    <View>
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
       {FriendList.map((e) => (
-        <FriendProfileTab2
-          user={e}
-          style={{ position: "absolute", bottom: "0" }}
-        />
+        <FriendProfileTab2 user={e} />
       ))}
     </View>
   );

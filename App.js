@@ -7,6 +7,7 @@ import RegisterScreen from "./screens/RegisterScreen";
 import StartScreen from "./screens/StartScreen";
 import HomeScreen from "./screens/HomeScreen";
 import MyRoomScreen from "./screens/MyRoomScreen";
+import FriendRoomScreen from "./screens/FriendRoomScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +15,7 @@ function App() {
   return (
     <>
       <StatusBar style="auto" />
-      <NavigationContainer independent={true}>
+      <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Start"
           screenOptions={{
@@ -26,6 +27,7 @@ function App() {
           <Stack.Screen name="Start" component={StartScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="MyRoom" component={MyRoomScreen} />
+          <Stack.Screen name="FriendRoom" component={FriendRoomScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

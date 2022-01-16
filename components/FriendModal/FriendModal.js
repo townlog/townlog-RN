@@ -23,7 +23,7 @@ const FriendModal = (props) => {
                     height: "93%",
                   }}
                 >
-                  <FriendTab></FriendTab>
+                  <FriendTab close={close}></FriendTab>
                 </View>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
