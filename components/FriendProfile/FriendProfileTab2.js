@@ -1,7 +1,10 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 
 const FriendProfileTab2 = ({ user }) => {
+  const navigation = useNavigation();
+
   const RoomPressHandler = () => {
     navigation.getParent().navigate("FriendRoom", { user });
     close();
