@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 
-const FriendProfileTab2 = ({ user }) => {
+const FriendProfileTab2 = ({ user, close }) => {
   const navigation = useNavigation();
 
   const RoomPressHandler = () => {
