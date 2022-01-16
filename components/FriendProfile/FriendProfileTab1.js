@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeFriendRequest } from "../../api/friend.js";
-import { StyleSheet, TouchableOpacity, View } from "react-native-web";
+import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 
 const FriendProfileTab1 = ({ user }) => {
   const FriendPressHandler = async () => {
@@ -9,8 +9,8 @@ const FriendProfileTab1 = ({ user }) => {
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
-        <Text>
-          {user.nickname} 님의 {user.houseName}
+        <Text style={styles.title}>
+          {user.nickname} 님의 방 "{user.houseName}""
         </Text>
         <View>
           <TouchableOpacity>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 30,
     width: "90%",
-    height: "90%",
+    height: "15%",
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
 
   buttonClose: {
     backgroundColor: "#2196F3",
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 20,
   },
   textStyle: {
     color: "white",
