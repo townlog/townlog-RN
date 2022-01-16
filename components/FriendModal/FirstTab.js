@@ -50,9 +50,7 @@ const FirstTab = () => {
       >
         {search ? (
           <FriendProfileTab1 user={frienduser}></FriendProfileTab1>
-        ) : (
-          <Text>{search}dddd</Text>
-        )}
+        ) : null}
       </View>
     </View>
   );

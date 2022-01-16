@@ -10,14 +10,22 @@ const FriendProfileTab1 = ({ user }) => {
     <View style={styles.container}>
       <View style={styles.profile}>
         <Text style={styles.title}>
-          {user.nickname} 님의 방 "{user.houseName}""
+          {user.nickname} 님의 방 "{user.houseName}"
         </Text>
-        <View>
-          <TouchableOpacity>
-            <Text>방 구경</Text>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+          }}
+        >
+          <TouchableOpacity style={[styles.button, styles.buttonBody]}>
+            <Text style={styles.textStyle}>방 구경</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={FriendPressHandler}>
-            <Text>친구 추가</Text>
+          <TouchableOpacity
+            onPress={FriendPressHandler}
+            style={[styles.button, styles.buttonBody]}
+          >
+            <Text style={styles.textStyle}>친구 추가</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -33,7 +41,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 30,
+    padding: 13,
     width: "90%",
     height: "15%",
     alignItems: "center",
@@ -48,18 +56,22 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 20,
-    padding: 10,
+    margin: 5,
     elevation: 2,
+    width: "40%",
+    height: "70%",
   },
 
-  buttonClose: {
-    backgroundColor: "#2196F3",
+  buttonBody: {
+    backgroundColor: "lightblue",
   },
   title: {
     fontWeight: "bold",
     fontSize: 20,
+    paddingBottom: 10,
   },
   textStyle: {
+    paddingTop: 7,
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
