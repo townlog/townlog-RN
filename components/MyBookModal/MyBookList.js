@@ -3,18 +3,12 @@ import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import { getMyBooks } from "../../api/furnitures";
 import BookItem from "./BookItem";
 
-const BookList = () => {
-  const [BookList, setBookList] = useState([]);
-  const getMyBookList = async () => {
-    const { books } = await getMyBooks();
-    setBookList(books);
-  };
-  useEffect(() => {
-    getMyBookList();
-  }, []);
+const BookList = (props) => {
+  const { bookItems } = props;
+
   return (
     <View style={styles.container}>
-      {BookList.map((e) => (
+      {bookItems.map((e) => (
         <BookItem books={e}></BookItem>
       ))}
     </View>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Alert,
   Modal,
@@ -11,8 +11,27 @@ import {
 } from "react-native";
 import plus from "../../assets/plus2.png";
 import MusicList from "./MyMusicList";
+import { getMyMusics } from "../../api/furnitures";
+import CreateMusicModal from "./CreateMusicModal";
 
 const MyMusicModal = (props) => {
+  const [createMusicModalVisible, setCreateMusicModalVisible] = useState(false);
+
+  const [musicItems, setMusicItems] = useState([]);
+
+  const getMyMusicList = async () => {
+    const { musics } = await getMyMusics();
+    setMusicItems(musics);
+  };
+  useEffect(() => {
+    getMyMusicList();
+  }, []);
+  const openCreateMusicModal = () => {
+    setCreateMusicModalVisible(true);
+  };
+  const closeCreateMusicModal = () => {
+    setCreateMusicModalVisible(false);
+  };
   const { open, close } = props;
   return (
     <View>
@@ -35,9 +54,15 @@ const MyMusicModal = (props) => {
                       position: "absolute",
                       right: "0%",
                     }}
+                    onPress={openCreateMusicModal}
                   >
                     <Image source={plus} style={styles.plusimage}></Image>
                   </TouchableOpacity>
+                  <CreateMusicModal
+                    open={createMusicModalVisible}
+                    close={closeCreateMusicModal}
+                    getMyMusicList={getMyMusicList}
+                  ></CreateMusicModal>
                 </View>
                 <View
                   style={{
@@ -48,7 +73,7 @@ const MyMusicModal = (props) => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <MusicList></MusicList>
+                  <MusicList musicItems={musicItems}></MusicList>
                 </View>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}

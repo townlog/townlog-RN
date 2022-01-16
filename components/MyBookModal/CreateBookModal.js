@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Alert,
   Modal,
@@ -8,31 +8,31 @@ import {
   View,
   Image,
   TouchableOpacity,
+  ScrollView,
+  TextInput,
 } from "react-native";
 import BookList from "./MyBookList";
 import plus from "../../assets/plus2.png";
-import CreateBookModal from "./CreateBookModal";
-import { getMyBooks } from "../../api/furnitures";
+import { createBook } from "../../api/furnitures";
 
-const MyBookModal = (props) => {
-  const { open, close } = props;
+const CreateBookModal = (props) => {
+  const { open, close, getMyBookList } = props;
 
-  const [createBookModalVisible, setCreateBookModalVisible] = useState(false);
-  const [bookItems, setBookItems] = useState([]);
-  const getMyBookList = async () => {
-    const { books } = await getMyBooks();
-    setBookItems(books);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [search, setSearch] = useState(false);
+
+  const titleHandler = (e) => {
+    setTitle(e);
+  };
+  const BodyHandler = (e) => {
+    setBody(e);
   };
 
-  useEffect(() => {
+  const onSearchClick = async () => {
+    await createBook({ title, body });
     getMyBookList();
-  }, []);
-
-  const openCreateBookModal = () => {
-    setCreateBookModalVisible(true);
-  };
-  const closeCreateBookModal = () => {
-    setCreateBookModalVisible(false);
+    close();
   };
 
   return (
@@ -48,7 +48,10 @@ const MyBookModal = (props) => {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <View style={styles.modalTop}>
-                  <Text style={styles.modalTitle}>My Book List</Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={titleHandler}
+                  ></TextInput>
                   <TouchableOpacity
                     style={{
                       width: "10%",
@@ -56,27 +59,31 @@ const MyBookModal = (props) => {
                       position: "absolute",
                       right: "0%",
                     }}
-                    onPress={openCreateBookModal}
                   >
                     <Image source={plus} style={styles.plusimage}></Image>
                   </TouchableOpacity>
-                  <CreateBookModal
-                    open={createBookModalVisible}
-                    close={closeCreateBookModal}
-                    getMyBookList={getMyBookList}
-                  ></CreateBookModal>
                 </View>
-                <View
+                <ScrollView
                   style={{
                     flex: 1,
-                    flexDirection: "row",
-                    height: "90%",
+                    height: "100%",
                     width: "100%",
-                    flexWrap: "wrap",
+                    alignContent: "center",
+                    padding: 20,
+                    margin: 30,
                   }}
                 >
-                  <BookList bookItems={bookItems}></BookList>
-                </View>
+                  <TextInput
+                    onChangeText={BodyHandler}
+                    style={styles.bodyinput}
+                  ></TextInput>
+                </ScrollView>
+                <TouchableOpacity
+                  style={[styles.button, styles.buttonSearch]}
+                  onPress={onSearchClick}
+                >
+                  <Text style={{ textAlign: "center" }}>글 쓰기</Text>
+                </TouchableOpacity>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={close}
@@ -101,7 +108,7 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
-    flex: 0.9,
+    flex: 0.4,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 20,
@@ -124,7 +131,7 @@ const styles = StyleSheet.create({
   },
 
   buttonClose: {
-    backgroundColor: "lightblue",
+    backgroundColor: "#2196F3",
   },
   textStyle: {
     color: "white",
@@ -135,16 +142,16 @@ const styles = StyleSheet.create({
     flex: 0.1,
     width: "100%",
     height: "10%",
-    textAlign: "center",
+    alignContent: "center",
     flexDirection: "row",
     flexWrap: "wrap",
+    justifyContent: "center",
   },
   modalTitle: {
     textAlign: "center",
     fontSize: 30,
     fontWeight: "bold",
     position: "absolute",
-    left: "20%",
     top: "2%",
     color: "lightblue",
   },
@@ -155,6 +162,22 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     tintColor: "lightblue",
   },
+  input: {
+    height: "300%",
+    width: "70%",
+    margin: 7,
+    borderWidth: 1,
+    padding: 10,
+    borderColor: "lightgray",
+    top: "3%",
+  },
+  bodyinput: {
+    height: "700%",
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "lightgray",
+    top: "3%",
+  },
 });
 
-export default MyBookModal;
+export default CreateBookModal;

@@ -3,18 +3,11 @@ import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import { getMyMusics } from "../../api/furnitures";
 import MusicItem from "./MusicItem";
 
-const MusicList = () => {
-  const [MusicList, setMusicList] = useState([]);
-  const getMyMusicList = async () => {
-    const { musics } = await getMyMusics();
-    setMusicList(musics);
-  };
-  useEffect(() => {
-    getMyMusicList();
-  }, []);
+const MusicList = (props) => {
+  const { musicItems } = props;
   return (
     <View style={styles.container}>
-      {MusicList.map((e) => (
+      {musicItems.map((e) => (
         <MusicItem musics={e}></MusicItem>
       ))}
     </View>
