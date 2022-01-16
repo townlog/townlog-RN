@@ -13,86 +13,20 @@ import {
 } from "react-native";
 import { createMusic } from "../../api/furnitures";
 import plus from "../../assets/plus2.png";
+import CreateModal from "../CreateModal/CreateMyModal";
 
 const CreateMusicModal = (props) => {
   const { open, close, getMyMusicList } = props;
 
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  const [search, setSearch] = useState(false);
-
-  const titleHandler = (e) => {
-    setTitle(e);
-  };
-  const BodyHandler = (e) => {
-    setBody(e);
-  };
-
-  const onSearchClick = async () => {
-    await createMusic({ title, body });
-    getMyMusicList();
-    close();
-  };
-
   return (
     <View>
       {open ? (
-        <View style={styles.centeredView}>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={open}
-            onRequestClose={close}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <View style={styles.modalTop}>
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={titleHandler}
-                  ></TextInput>
-                  <TouchableOpacity
-                    style={{
-                      width: "10%",
-                      height: "50%",
-                      position: "absolute",
-                      right: "0%",
-                    }}
-                  >
-                    <Image source={plus} style={styles.plusimage}></Image>
-                  </TouchableOpacity>
-                </View>
-                <ScrollView
-                  style={{
-                    flex: 1,
-                    height: "100%",
-                    width: "100%",
-                    alignContent: "center",
-                    padding: 20,
-                    margin: 30,
-                  }}
-                >
-                  <TextInput
-                    onChangeText={BodyHandler}
-                    style={styles.bodyinput}
-                  ></TextInput>
-                </ScrollView>
-                <TouchableOpacity
-                  style={[styles.button, styles.buttonSearch]}
-                  onPress={onSearchClick}
-                >
-                  <Text style={{ textAlign: "center" }}>글 쓰기</Text>
-                </TouchableOpacity>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={close}
-                >
-                  <Text style={styles.textStyle}>close</Text>
-                </Pressable>
-              </View>
-            </View>
-          </Modal>
-        </View>
+        <CreateModal
+          open={open}
+          close={close}
+          getMyItemList={getMyMusicList}
+          createItem={createMusic}
+        ></CreateModal>
       ) : null}
     </View>
   );
