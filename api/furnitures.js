@@ -55,7 +55,34 @@ export const getFriendTravels = async (userId) => {
   return response.data;
 };
 
-export const getFriendPhotos = async (userId) => {
-  const response = await request.get(`/furnitures/photos?userId=${userId}`);
+export const toggleLikePhoto = async (photoId) => {
+  const response = await request.post(`/furnitures/photos`, {
+    photoId,
+  });
+
+  return response.data;
+};
+
+export const toggleLikeMusic = async (musicId) => {
+  const response = await request.post(`/furnitures/musics`, {
+    musicId,
+  });
+
+  return response.data;
+};
+
+export const toggleLikeBook = async (bookId) => {
+  const response = await request.post(`/furnitures/books`, {
+    bookId,
+  });
+
+  return response.data;
+};
+
+export const toggleLikeTravel = async (travelId) => {
+  const response = await request.post(`/furnitures/travels`, {
+    travelId,
+  });
+
   return response.data;
 };
