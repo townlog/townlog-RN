@@ -12,7 +12,8 @@ import background from "../../assets/room4.png";
 import study from "../../assets/study.png";
 import book from "../../assets/book.png";
 import music from "../../assets/recordplayer.png";
-import BookModal from "../../components/BookModal/BookModal";
+import MyBookModal from "../../components/MyBookModal/MyBookModal";
+import MyMusicModal from "../../components/MyMusicModal/MyMusicModal";
 
 const MyRoomScreen = ({ navigation }) => {
   const [bookModalVisible, setbookModalVisible] = useState(false);
@@ -25,7 +26,16 @@ const MyRoomScreen = ({ navigation }) => {
     setbookModalVisible(false);
   };
 
-  const MusicPressHandler = () => {};
+  const [musicModalVisible, setMusicModalVisible] = useState(false);
+
+  const openMusicModal = () => {
+    setMusicModalVisible(true);
+  };
+
+  const closeMusicModal = () => {
+    setMusicModalVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -40,11 +50,18 @@ const MyRoomScreen = ({ navigation }) => {
         >
           <Image source={book} resizeMode="cover" style={styles.book} />
         </TouchableOpacity>
-        <BookModal open={bookModalVisible} close={closeBookModal}></BookModal>
+        <MyBookModal
+          open={bookModalVisible}
+          close={closeBookModal}
+        ></MyBookModal>
         <TouchableOpacity
-          onPress={MusicPressHandler}
+          onPress={openMusicModal}
           style={styles.musictouchable}
         >
+          <MyMusicModal
+            open={musicModalVisible}
+            close={closeMusicModal}
+          ></MyMusicModal>
           <Image source={music} resizeMode="cover" style={styles.music} />
         </TouchableOpacity>
       </ImageBackground>

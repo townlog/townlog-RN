@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Button } from "react-native";
 import request from "../../api/axios";
+import { getMe } from "../../api/user";
 import { getJwt } from "../../utils/auth";
 
 const FirstPage = ({ navigation }) => {
@@ -10,10 +11,13 @@ const FirstPage = ({ navigation }) => {
       console.log(`token`, token);
       if (token) {
         request.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "Home" }],
-        });
+        const { status } = await getMe();
+        if (status) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Home" }],
+          });
+        }
       }
     })();
     return () => {};
