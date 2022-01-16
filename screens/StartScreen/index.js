@@ -10,7 +10,10 @@ const FirstPage = ({ navigation }) => {
       console.log(`token`, token);
       if (token) {
         request.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        navigation.navigate("Home");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Home" }],
+        });
       }
     })();
     return () => {};

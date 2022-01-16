@@ -26,7 +26,10 @@ export default function App({ navigation }) {
       });
       if (status) {
         Alert.alert(token);
-        navigation.navigate("Home");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Start" }],
+        });
       } else {
         Alert.alert("회원가입 실패");
       }
