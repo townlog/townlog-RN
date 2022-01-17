@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { createPhoto } from "../../api/furnitures";
+import * as MediaLibrary from "expo-media-library";
+import * as ImagePicker from "expo-image-picker";
 
 import {
   Alert,
@@ -19,6 +21,9 @@ const CreatePhotoModal = (props) => {
   const { open, close, getMyPhotoList } = props;
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [selected, setSelected] = useState();
+  const [allPhotos, setAllPhotos] = useState();
+  const [image, setImage] = useState(null);
 
   const changeSelected = (photo) => {
     setSelected(photo);
@@ -32,11 +37,32 @@ const CreatePhotoModal = (props) => {
   };
 
   const onCreateClick = async () => {
-    await createPhoto({ title, body });
+    Alert.alert(image);
+    await createPhoto({ title, body, files: image ? [image] : [] });
     getMyPhotoList();
     close();
   };
 
+
+  const onCloseClick = async () => {
+    close();
+    setImage(null);
+  };
+
+  const getPhoto = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
   return (
     <View>
       {open ? (
@@ -67,6 +93,14 @@ const CreatePhotoModal = (props) => {
                     <Image source={plus} style={styles.plusimage}></Image>
                   </TouchableOpacity>
                 </View>
+                <View>
+                  {image && (
+                    <Image
+                      source={{ uri: image }}
+                      style={{ width: 50, height: 50 }}
+                    />
+                  )}
+                </View>
                 <ScrollView
                   style={{
                     flex: 1,
@@ -93,7 +127,7 @@ const CreatePhotoModal = (props) => {
                   </Pressable>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
-                    onPress={close}
+                    onPress={onCloseClick}
                   >
                     <Text style={styles.textStyle}>close</Text>
                   </Pressable>
@@ -171,7 +205,7 @@ const styles = StyleSheet.create({
     color: "lightblue",
   },
   plusimage: {
-    height: "100%",
+    height: "500%",
     width: "100%",
     right: "5%",
     resizeMode: "contain",
