@@ -88,7 +88,7 @@ const PhotoModal = (props) => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <PhotoList photoItems={photoItems} />
+                  <PhotoList photoItems={photoItems} user={user} photoModalclose = {close}/>
                 </View>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}

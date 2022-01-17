@@ -5,8 +5,11 @@ import { useNavigation } from "@react-navigation/native";
 
 const FriendProfileTab1 = (props) => {
   const navigation = useNavigation();
-  const { user, close } = props;
+  const { user, close, accept } = props;
+  const [pressed, setPressed] = useState(false);
+
   const FriendPressHandler = async () => {
+    setPressed(true);
     const { status } = await makeFriendRequest(user.id);
     if (status) {
       Alert.alert("친구 요청이 완료되었습니다.");
@@ -31,18 +34,33 @@ const FriendProfileTab1 = (props) => {
             flexDirection: "row",
           }}
         >
-          <TouchableOpacity
-            onPress={RoomPressHandler}
-            style={[styles.button, styles.buttonBody]}
-          >
-            <Text style={styles.textStyle}>방 구경</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={FriendPressHandler}
-            style={[styles.button, styles.buttonBody]}
-          >
-            <Text style={styles.textStyle}>친구 추가</Text>
-          </TouchableOpacity>
+          <>
+            <TouchableOpacity
+              onPress={RoomPressHandler}
+              style={[styles.button, styles.buttonBody]}
+            >
+              <Text style={styles.textStyle}>방 구경</Text>
+            </TouchableOpacity>
+            {accept && !pressed ? (
+              <>
+                <TouchableOpacity
+                  onPress={FriendPressHandler}
+                  style={[styles.button, styles.acceptbuttonBody]}
+                >
+                  <Text style={styles.textStyle}>친구 추가</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <TouchableOpacity
+                  style={[styles.button, styles.declinebuttonBody]}
+                  activeOpacity={1}
+                >
+                  <Text style={styles.textStyle}>친구 추가</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </>
         </View>
       </View>
     </View>
@@ -75,11 +93,16 @@ const styles = StyleSheet.create({
     margin: 5,
     elevation: 2,
     width: "40%",
-    height: "70%",
+    height: "80%",
   },
-
   buttonBody: {
     backgroundColor: "lightblue",
+  },
+  acceptbuttonBody: {
+    backgroundColor: "lightblue",
+  },
+  declinebuttonBody: {
+    backgroundColor: "lightgray",
   },
   title: {
     fontWeight: "bold",

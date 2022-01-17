@@ -8,16 +8,29 @@ import {
   ScrollView,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import plus from "../../assets/plus.png";
 import { isLikedMusic, toggleLikeMusic } from "../../api/furnitures";
+import LikeModal from "../LikeModal/LikeModal";
 
 const MusicBodyModal = (props) => {
   const [heart, setHeart] = useState(false);
-  const { open, close, musics } = props;
-  const { id, title, body } = musics;
+  const { open, close, musics, user, closeMusicBodyModal, musicModalclose } =
+    props;
+  const { id, title, body, likes } = musics;
 
   const onHeartClick = () => {
     setHeart(!heart);
     toggleLikeMusic(id);
+  };
+
+  const [LikeModalVisible, setLikeModalVisible] = useState(false);
+
+  const openLikeModal = () => {
+    setLikeModalVisible(true);
+  };
+
+  const closeLikeModal = () => {
+    setLikeModalVisible(false);
   };
 
   useEffect(() => {
@@ -53,7 +66,23 @@ const MusicBodyModal = (props) => {
                 >
                   <Text> {body} </Text>
                 </ScrollView>
-                {heart ? (
+                {user === null ? (
+                  <>
+                    <AntDesign
+                      onPress={openLikeModal}
+                      name="heart"
+                      size={24}
+                      color="red"
+                    />
+                    <LikeModal
+                      open={LikeModalVisible}
+                      closeLikeModal={closeLikeModal}
+                      closeBodyModal={closeMusicBodyModal}
+                      Modalclose={musicModalclose}
+                      likes={likes}
+                    ></LikeModal>
+                  </>
+                ) : heart ? (
                   <AntDesign
                     onPress={onHeartClick}
                     name="heart"
@@ -68,6 +97,7 @@ const MusicBodyModal = (props) => {
                     color="black"
                   />
                 )}
+
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={close}

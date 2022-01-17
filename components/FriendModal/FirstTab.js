@@ -17,6 +17,7 @@ import { backgroundColor } from "react-native/Libraries/Components/View/ReactNat
 const FirstTab = ({ route }) => {
   const { close } = route.params;
   const [search, setSearch] = useState(false);
+  const [accept, setAccept] = useState("");
 
   const [frienduser, setFrienduser] = useState("");
   const [name, setName] = useState("");
@@ -24,10 +25,11 @@ const FirstTab = ({ route }) => {
     setName(e);
   };
   const onSearchClick = async () => {
-    const { status, user } = await SearchUser(name);
+    const { status, user, accept } = await SearchUser(name);
     if (status) {
       setSearch(true);
       setFrienduser(user);
+      setAccept(accept);
     }
   };
   return (
@@ -54,6 +56,7 @@ const FirstTab = ({ route }) => {
           <FriendProfileTab1
             user={frienduser}
             close={close}
+            accept={accept}
           ></FriendProfileTab1>
         ) : null}
       </View>

@@ -4,11 +4,16 @@ import { getMyMusics } from "../../api/furnitures";
 import MusicItem from "./MusicItem";
 
 const MusicList = (props) => {
-  const { musicItems } = props;
+  const { musicItems, musicModalclose, user } = props;
   return (
     <View style={styles.container}>
       {musicItems.map((e) => (
-        <MusicItem key={e.id} musics={e}></MusicItem>
+        <MusicItem
+          key={e.id}
+          musics={e}
+          user={user}
+          musicModalclose={musicModalclose}
+        ></MusicItem>
       ))}
     </View>
   );

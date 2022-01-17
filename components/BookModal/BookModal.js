@@ -76,7 +76,7 @@ const BookModal = (props) => {
                   <CreateBookModal
                     open={createBookModalVisible}
                     close={closeCreateBookModal}
-                    getMyBookList={getBookList}
+                    getBookList={getBookList}
                   ></CreateBookModal>
                 </View>
                 <View
@@ -92,6 +92,7 @@ const BookModal = (props) => {
                     bookItems={bookItems}
                     user={user}
                     isFriend={isFriend}
+                    bookModalclose={close}
                   ></BookList>
                 </View>
                 <Pressable
