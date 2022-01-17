@@ -8,7 +8,6 @@ const FirstPage = ({ navigation }) => {
   React.useEffect(() => {
     (async () => {
       const token = await getJwt();
-      console.log(`token`, token);
       if (token) {
         request.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         const { status } = await getMe();

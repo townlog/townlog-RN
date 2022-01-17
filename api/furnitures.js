@@ -1,4 +1,5 @@
-import request from "./axios";
+import request from "./axios.js";
+import FormData from "form-data";
 
 export const createBook = async (info) => {
   const response = await request.post("/furnitures/books", info);
@@ -16,7 +17,19 @@ export const createTravel = async (info) => {
 };
 
 export const createPhoto = async (info) => {
-  const response = await request.post("/furnitures/photos", info);
+  const { title, body, files } = info;
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("body", body);
+  files.forEach((e) => {
+    formData.append("images", e);
+  });
+
+  const response = await request.post("/furnitures/photos", formData, {
+    headers: {
+      ...formData.getHeaders(),
+    },
+  });
   return response.data;
 };
 
