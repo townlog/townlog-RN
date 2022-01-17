@@ -14,6 +14,7 @@ import book from "../../assets/book.png";
 import music from "../../assets/recordplayer.png";
 import MyBookModal from "../../components/MyBookModal/MyBookModal";
 import MyMusicModal from "../../components/MyMusicModal/MyMusicModal";
+import MyPhotoModal from "../../components/MyPhotoModal/MyPhotoModal";
 
 const MyRoomScreen = ({ navigation }) => {
   const [bookModalVisible, setbookModalVisible] = useState(false);
@@ -34,6 +35,16 @@ const MyRoomScreen = ({ navigation }) => {
 
   const closeMusicModal = () => {
     setMusicModalVisible(false);
+  };
+
+  const [photoModalVisible, setPhotoModalVisible] = useState(false);
+
+  const openPhotoModal = () => {
+    setPhotoModalVisible(true);
+  };
+
+  const closePhotoModal = () => {
+    setPhotoModalVisible(false);
   };
 
   return (
@@ -64,6 +75,17 @@ const MyRoomScreen = ({ navigation }) => {
           ></MyMusicModal>
           <Image source={music} resizeMode="cover" style={styles.music} />
         </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={openPhotoModal}
+          style={styles.phototouchable}
+        >
+          <MyPhotoModal
+            open={photoModalVisible}
+            close={closePhotoModal}
+          ></MyPhotoModal>
+          <Image source={music} resizeMode="cover" style={styles.music} />
+        </TouchableOpacity>
       </ImageBackground>
     </View>
   );
@@ -91,6 +113,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "25%",
     left: "0%",
+  },
+  phototouchable: {
+    flex: 1,
+    height: "40%",
+    width: "40%",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
   },
   text: {
     color: "white",

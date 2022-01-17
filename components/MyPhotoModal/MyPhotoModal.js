@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Alert,
   Modal,
@@ -8,14 +8,31 @@ import {
   View,
   Image,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import plus from "../../assets/plus2.png";
+import PhotoList from "./MyPhotoList";
+import { getMyPhotos } from "../../api/furnitures";
+import CreatePhotoModal from "./CreatePhotoModal";
 
-const BookBodyModal = (props) => {
-  const { open, close, books } = props;
-  const { id, title, body } = books;
+const MyPhotoModal = (props) => {
+  const [createPhotoModalVisible, setCreatePhotoModalVisible] = useState(false);
 
+  const [photoItems, setPhotoItems] = useState([]);
+
+  const getMyPhotoList = async () => {
+    const { photos } = await getMyPhotos();
+    setPhotoItems(photos);
+  };
+  useEffect(() => {
+    getMyPhotoList();
+  }, []);
+  const openCreatePhotoModal = () => {
+    setCreatePhotoModalVisible(true);
+  };
+  const closeCreatePhotoModal = () => {
+    setCreatePhotoModalVisible(false);
+  };
+  const { open, close } = props;
   return (
     <View>
       {open ? (
@@ -29,7 +46,7 @@ const BookBodyModal = (props) => {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <View style={styles.modalTop}>
-                  <Text style={styles.modalTitle}>{title}</Text>
+                  <Text style={styles.modalTitle}>My Photo List</Text>
                   <TouchableOpacity
                     style={{
                       width: "10%",
@@ -37,22 +54,27 @@ const BookBodyModal = (props) => {
                       position: "absolute",
                       right: "0%",
                     }}
+                    onPress={openCreatePhotoModal}
                   >
                     <Image source={plus} style={styles.plusimage}></Image>
                   </TouchableOpacity>
+                  <CreatePhotoModal
+                    open={createPhotoModalVisible}
+                    close={closeCreatePhotoModal}
+                    getMyMusicList={getMyPhotoList}
+                  ></CreatePhotoModal>
                 </View>
-                <ScrollView
+                <View
                   style={{
                     flex: 1,
-                    height: "100%",
+                    flexDirection: "row",
+                    height: "90%",
                     width: "100%",
-                    alignContent: "center",
-                    padding: 20,
-                    margin: 30,
+                    flexWrap: "wrap",
                   }}
                 >
-                  <Text> {body} </Text>
-                </ScrollView>
+                  <PhotoList photoItems={photoItems} />
+                </View>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={close}
@@ -77,7 +99,7 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
-    flex: 0.4,
+    flex: 0.9,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 20,
@@ -100,7 +122,7 @@ const styles = StyleSheet.create({
   },
 
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "lightblue",
   },
   textStyle: {
     color: "white",
@@ -111,16 +133,16 @@ const styles = StyleSheet.create({
     flex: 0.1,
     width: "100%",
     height: "10%",
-    alignContent: "center",
+    textAlign: "center",
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
   },
   modalTitle: {
     textAlign: "center",
     fontSize: 30,
     fontWeight: "bold",
     position: "absolute",
+    left: "20%",
     top: "2%",
     color: "lightblue",
   },
@@ -133,4 +155,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BookBodyModal;
+export default MyPhotoModal;
