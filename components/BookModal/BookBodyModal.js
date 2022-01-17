@@ -12,9 +12,9 @@ import {
 } from "react-native";
 import plus from "../../assets/plus2.png";
 
-const MusicBodyModal = (props) => {
-  const { open, close, musics } = props;
-  const { id, title, body } = musics;
+const BookBodyModal = (props) => {
+  const { open, close, books } = props;
+  const { id, title, body } = books;
 
   return (
     <View>
@@ -30,16 +30,6 @@ const MusicBodyModal = (props) => {
               <View style={styles.modalView}>
                 <View style={styles.modalTop}>
                   <Text style={styles.modalTitle}>{title}</Text>
-                  <TouchableOpacity
-                    style={{
-                      width: "10%",
-                      height: "50%",
-                      position: "absolute",
-                      right: "0%",
-                    }}
-                  >
-                    <Image source={plus} style={styles.plusimage}></Image>
-                  </TouchableOpacity>
                 </View>
                 <ScrollView
                   style={{
@@ -100,7 +90,7 @@ const styles = StyleSheet.create({
   },
 
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "lightblue",
   },
   textStyle: {
     color: "white",
@@ -133,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MusicBodyModal;
+export default BookBodyModal;

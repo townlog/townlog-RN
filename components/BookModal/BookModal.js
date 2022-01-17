@@ -9,23 +9,28 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import BookList from "./MyBookList";
+import BookList from "./BookList";
 import plus from "../../assets/plus2.png";
 import CreateBookModal from "./CreateBookModal";
-import { getMyBooks } from "../../api/furnitures";
+import { getFriendBooks, getMyBooks } from "../../api/furnitures";
 
-const MyBookModal = (props) => {
-  const { open, close } = props;
-
+const BookModal = (props) => {
+  const { open, close, user, isFriend } = props;
   const [createBookModalVisible, setCreateBookModalVisible] = useState(false);
   const [bookItems, setBookItems] = useState([]);
-  const getMyBookList = async () => {
-    const { books } = await getMyBooks();
-    setBookItems(books);
+
+  const getBookList = async () => {
+    if (user === null) {
+      const { books } = await getMyBooks();
+      setBookItems(books);
+    } else {
+      const { books } = await getFriendBooks(user.id);
+      setBookItems(books);
+    }
   };
 
   useEffect(() => {
-    getMyBookList();
+    getBookList();
   }, []);
 
   const openCreateBookModal = () => {
@@ -48,22 +53,30 @@ const MyBookModal = (props) => {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <View style={styles.modalTop}>
-                  <Text style={styles.modalTitle}>My Book List</Text>
-                  <TouchableOpacity
-                    style={{
-                      width: "10%",
-                      height: "50%",
-                      position: "absolute",
-                      right: "0%",
-                    }}
-                    onPress={openCreateBookModal}
-                  >
-                    <Image source={plus} style={styles.plusimage}></Image>
-                  </TouchableOpacity>
+                  {isFriend ? (
+                    <Text style={styles.modalTitle}>
+                      {user.nickname}'s Book List
+                    </Text>
+                  ) : (
+                    <>
+                      <Text style={styles.modalTitle}>My Book List</Text>
+                      <TouchableOpacity
+                        style={{
+                          width: "10%",
+                          height: "50%",
+                          position: "absolute",
+                          right: "0%",
+                        }}
+                        onPress={openCreateBookModal}
+                      >
+                        <Image source={plus} style={styles.plusimage}></Image>
+                      </TouchableOpacity>
+                    </>
+                  )}
                   <CreateBookModal
                     open={createBookModalVisible}
                     close={closeCreateBookModal}
-                    getMyBookList={getMyBookList}
+                    getMyBookList={getBookList}
                   ></CreateBookModal>
                 </View>
                 <View
@@ -75,7 +88,11 @@ const MyBookModal = (props) => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <BookList bookItems={bookItems}></BookList>
+                  <BookList
+                    bookItems={bookItems}
+                    user={user}
+                    isFriend={isFriend}
+                  ></BookList>
                 </View>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
@@ -157,4 +174,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyBookModal;
+export default BookModal;

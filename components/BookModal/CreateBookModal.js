@@ -11,12 +11,13 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import { createMusic } from "../../api/furnitures";
+import BookList from "./BookList";
 import plus from "../../assets/plus2.png";
+import { createBook } from "../../api/furnitures";
 import CreateModal from "../CreateModal/CreateMyModal";
 
-const CreateMusicModal = (props) => {
-  const { open, close, getMyMusicList } = props;
+const CreateBookModal = (props) => {
+  const { open, close, getBookList } = props;
 
   return (
     <View>
@@ -24,8 +25,8 @@ const CreateMusicModal = (props) => {
         <CreateModal
           open={open}
           close={close}
-          getMyItemList={getMyMusicList}
-          createItem={createMusic}
+          getItemList={getBookList}
+          createItem={createBook}
         ></CreateModal>
       ) : null}
     </View>
@@ -113,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateMusicModal;
+export default CreateBookModal;

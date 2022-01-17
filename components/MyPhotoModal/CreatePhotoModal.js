@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createPhoto } from "../../api/furnitures";
 import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
+
 import {
   Alert,
   Modal,
@@ -41,6 +42,7 @@ const CreatePhotoModal = (props) => {
     getMyPhotoList();
     close();
   };
+
 
   const onCloseClick = async () => {
     close();
@@ -87,7 +89,6 @@ const CreatePhotoModal = (props) => {
                       position: "absolute",
                       right: "0%",
                     }}
-                    onPress={getPhoto}
                   >
                     <Image source={plus} style={styles.plusimage}></Image>
                   </TouchableOpacity>
