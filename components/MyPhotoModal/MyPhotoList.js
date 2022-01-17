@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
-import { getMyBooks } from "../../api/furnitures";
-import BookItem from "./BookItem";
+import PhotoItem from "./PhotoItem";
 
-const BookList = (props) => {
-  const { bookItems } = props;
-
+const PhotoList = (props) => {
+  const { photoItems } = props;
   return (
     <View style={styles.container}>
-      {bookItems.map((e) => (
-        <BookItem key={e.id} books={e}></BookItem>
+      {photoItems.map((e) => (
+        <PhotoItem key={e.id} photos={e}></PhotoItem>
       ))}
     </View>
   );
@@ -25,4 +23,4 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
 });
-export default BookList;
+export default PhotoList;

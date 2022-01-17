@@ -8,7 +8,7 @@ const MusicList = (props) => {
   return (
     <View style={styles.container}>
       {musicItems.map((e) => (
-        <MusicItem musics={e}></MusicItem>
+        <MusicItem key={e.id} musics={e}></MusicItem>
       ))}
     </View>
   );

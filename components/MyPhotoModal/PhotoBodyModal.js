@@ -12,9 +12,9 @@ import {
 } from "react-native";
 import plus from "../../assets/plus2.png";
 
-const BookBodyModal = (props) => {
-  const { open, close, books } = props;
-  const { id, title, body } = books;
+const PhotoBodyModal = (props) => {
+  const { open, close, photos } = props;
+  const { id, title, body } = photos;
 
   return (
     <View>
@@ -133,4 +133,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BookBodyModal;
+export default PhotoBodyModal;
