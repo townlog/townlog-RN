@@ -75,7 +75,7 @@ export const getFriendTravels = async (userId) => {
 };
 
 export const toggleLikePhoto = async (photoId) => {
-  const response = await request.post(`/furnitures/photos`, {
+  const response = await request.post(`/furnitures/photos/like`, {
     photoId,
   });
 
@@ -83,7 +83,7 @@ export const toggleLikePhoto = async (photoId) => {
 };
 
 export const toggleLikeMusic = async (musicId) => {
-  const response = await request.post(`/furnitures/musics`, {
+  const response = await request.post(`/furnitures/musics/like`, {
     musicId,
   });
 
@@ -91,7 +91,7 @@ export const toggleLikeMusic = async (musicId) => {
 };
 
 export const toggleLikeBook = async (bookId) => {
-  const response = await request.post(`/furnitures/books`, {
+  const response = await request.post(`/furnitures/books/like`, {
     bookId,
   });
 
@@ -99,9 +99,39 @@ export const toggleLikeBook = async (bookId) => {
 };
 
 export const toggleLikeTravel = async (travelId) => {
-  const response = await request.post(`/furnitures/travels`, {
+  const response = await request.post(`/furnitures/travels/like`, {
     travelId,
   });
 
   return response.data;
+};
+
+export const isLikedPhoto = async (photoId) => {
+  const response = await request.get(`/furnitures/photos/like?id=${photoId}`);
+  const { status, liked } = response.data;
+  if (!status) {
+    return false;
+  }
+
+  return liked;
+};
+
+export const isLikedMusic = async (musicId) => {
+  const response = await request.get(`/furnitures/musics/like?id=${musicId}`);
+  const { status, liked } = response.data;
+  if (!status) {
+    return false;
+  }
+
+  return liked;
+};
+
+export const isLikedBook = async (bookId) => {
+  const response = await request.get(`/furnitures/books/like?id=${bookId}`);
+  const { status, liked } = response.data;
+  if (!status) {
+    return false;
+  }
+
+  return liked;
 };
