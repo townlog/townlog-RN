@@ -10,22 +10,27 @@ import {
   TouchableOpacity,
 } from "react-native";
 import plus from "../../assets/plus2.png";
-import PhotoList from "./MyPhotoList";
-import { getMyPhotos } from "../../api/furnitures";
+import PhotoList from "./PhotoList";
+import { getMyPhotos, getFriendPhotos } from "../../api/furnitures";
 import CreatePhotoModal from "./CreatePhotoModal";
 
-const MyPhotoModal = (props) => {
-  const { open, close } = props;
+const PhotoModal = (props) => {
+  const { open, close, user, isFriend } = props;
   const [createPhotoModalVisible, setCreatePhotoModalVisible] = useState(false);
 
   const [photoItems, setPhotoItems] = useState([]);
 
-  const getMyPhotoList = async () => {
-    const { photos } = await getMyPhotos();
-    setPhotoItems(photos);
+  const getPhotoList = async () => {
+    if (user === null) {
+      const { photos } = await getMyPhotos();
+      setPhotoItems(photos);
+    } else {
+      const { photos } = await getFriendPhotos(user.id);
+      setPhotoItems(photos);
+    }
   };
   useEffect(() => {
-    getMyPhotoList();
+    getPhotoList();
   }, []);
   const openCreatePhotoModal = () => {
     setCreatePhotoModalVisible(true);
@@ -34,10 +39,6 @@ const MyPhotoModal = (props) => {
     setCreatePhotoModalVisible(false);
   };
 
-  const getPermission = async () => {
-    const { status } = await MediaLibrary.requestPermissionsAsync();
-    const media = await MediaLibrary.getAssetsAsync({ mediaType: ["photo"] });
-  };
   return (
     <View>
       {open ? (
@@ -51,22 +52,31 @@ const MyPhotoModal = (props) => {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <View style={styles.modalTop}>
-                  <Text style={styles.modalTitle}>My Photo List</Text>
-                  <TouchableOpacity
-                    style={{
-                      width: "10%",
-                      height: "50%",
-                      position: "absolute",
-                      right: "0%",
-                    }}
-                    onPress={openCreatePhotoModal}
-                  >
-                    <Image source={plus} style={styles.plusimage}></Image>
-                  </TouchableOpacity>
+                  {isFriend ? (
+                    <Text style={styles.modalTitle}>
+                      {user.nickname}'s List
+                    </Text>
+                  ) : (
+                    <>
+                      <Text style={styles.modalTitle}>My Photo List</Text>
+                      <TouchableOpacity
+                        style={{
+                          width: "10%",
+                          height: "50%",
+                          position: "absolute",
+                          right: "0%",
+                        }}
+                        onPress={openCreatePhotoModal}
+                      >
+                        <Image source={plus} style={styles.plusimage}></Image>
+                      </TouchableOpacity>
+                    </>
+                  )}
+
                   <CreatePhotoModal
                     open={createPhotoModalVisible}
                     close={closeCreatePhotoModal}
-                    getMyPhotoList={getMyPhotoList}
+                    getPhotoList={getPhotoList}
                   ></CreatePhotoModal>
                 </View>
                 <View
@@ -160,4 +170,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyPhotoModal;
+export default PhotoModal;

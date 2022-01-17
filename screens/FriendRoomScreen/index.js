@@ -15,7 +15,7 @@ import photo from "../../assets/photo.jpg";
 import music from "../../assets/recordplayer.png";
 import BookModal from "../../components/BookModal/BookModal";
 import MusicModal from "../../components/MusicModal/MusicModal";
-import MyPhotoModal from "../../components/MyPhotoModal/MyPhotoModal";
+import PhotoModal from "../../components/PhotoModal/PhotoModal";
 
 const FriendRoomScreen = ({ navigation, route }) => {
   const { user } = route.params;
@@ -87,10 +87,12 @@ const FriendRoomScreen = ({ navigation, route }) => {
           onPress={openPhotoModal}
           style={styles.phototouchable}
         >
-          <MyPhotoModal
+          <PhotoModal
             open={photoModalVisible}
             close={closePhotoModal}
-          ></MyPhotoModal>
+            user={user}
+            isFriend={true}
+          ></PhotoModal>
           <Image source={photo} resizeMode="cover" style={styles.furniture} />
         </TouchableOpacity>
       </ImageBackground>

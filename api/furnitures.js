@@ -74,6 +74,11 @@ export const getFriendTravels = async (userId) => {
   return response.data;
 };
 
+export const getFriendPhotos = async () => {
+  const response = await request.get(`/furnitures/photos?userId=${userId}`);
+  return response.data;
+};
+
 export const toggleLikePhoto = async (photoId) => {
   const response = await request.post(`/furnitures/photos`, {
     photoId,

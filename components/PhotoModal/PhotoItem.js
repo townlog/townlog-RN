@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-import music from "../../assets/music.png";
+import camera from "../../assets/camera.png";
 import PhotoBodyModal from "./PhotoBodyModal";
 
 const photoItem = ({ photos }) => {
@@ -18,7 +18,7 @@ const photoItem = ({ photos }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.touch} onPress={openPhotoBodyModal}>
-        <Image style={styles.image} source={music}></Image>
+        <Image style={styles.image} source={camera  }></Image>
         <Text style={styles.photoTitle}>{title}</Text>
       </TouchableOpacity>
       <PhotoBodyModal

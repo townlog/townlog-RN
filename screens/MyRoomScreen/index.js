@@ -15,7 +15,7 @@ import photo from "../../assets/photo.jpg";
 import music from "../../assets/recordplayer.png";
 import BookModal from "../../components/BookModal/BookModal";
 import MusicModal from "../../components/MusicModal/MusicModal";
-import MyPhotoModal from "../../components/MyPhotoModal/MyPhotoModal";
+import PhotoModal from "../../components/PhotoModal/PhotoModal";
 
 const MyRoomScreen = ({ navigation }) => {
   const [bookModalVisible, setbookModalVisible] = useState(false);
@@ -85,10 +85,12 @@ const MyRoomScreen = ({ navigation }) => {
           onPress={openPhotoModal}
           style={styles.phototouchable}
         >
-          <MyPhotoModal
+          <PhotoModal
             open={photoModalVisible}
             close={closePhotoModal}
-          ></MyPhotoModal>
+            user={null}
+            isFriend={false}
+          ></PhotoModal>
           <Image source={photo} resizeMode="cover" style={styles.furniture} />
         </TouchableOpacity>
       </ImageBackground>

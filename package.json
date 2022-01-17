@@ -7,12 +7,18 @@
     "web": "expo start --web",
     "eject": "expo eject"
   },
+  "rnpm": {
+    "assets": [
+      "/assets/fonts"
+    ]
+  },
   "dependencies": {
     "@react-navigation/material-top-tabs": "^6.0.6",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "axios": "^0.24.0",
     "expo": "~44.0.0",
+    "expo-font": "^10.0.4",
     "expo-image-picker": "~12.0.1",
     "expo-media-library": "~14.0.0",
     "expo-secure-store": "~11.1.0",

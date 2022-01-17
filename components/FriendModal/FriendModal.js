@@ -20,7 +20,7 @@ const FriendModal = (props) => {
                 <View
                   style={{
                     width: "90%",
-                    height: "93%",
+                    height: "90%",
                   }}
                 >
                   <FriendTab close={close}></FriendTab>
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
+    flex: 0.9,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -66,12 +67,12 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    margin: 5,
+    margin: 15,
     elevation: 2,
   },
 
   buttonClose: {
-    backgroundColor: "blue",
+    backgroundColor: "lightblue",
   },
   textStyle: {
     color: "white",

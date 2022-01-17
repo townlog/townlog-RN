@@ -14,20 +14,17 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  KeyboardAvoidingView,
+  SafeAreaView,
 } from "react-native";
 import plus from "../../assets/plus2.png";
 
 const CreatePhotoModal = (props) => {
-  const { open, close, getMyPhotoList } = props;
+  const { open, close, getPhotoList } = props;
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [selected, setSelected] = useState();
-  const [allPhotos, setAllPhotos] = useState();
-  const [image, setImage] = useState(null);
 
-  const changeSelected = (photo) => {
-    setSelected(photo);
-  };
+  const [image, setImage] = useState(null);
 
   const titleHandler = (e) => {
     setTitle(e);
@@ -39,10 +36,9 @@ const CreatePhotoModal = (props) => {
   const onCreateClick = async () => {
     Alert.alert(image);
     await createPhoto({ title, body, files: image ? [image] : [] });
-    getMyPhotoList();
+    getPhotoList();
     close();
   };
-
 
   const onCloseClick = async () => {
     close();
@@ -74,7 +70,10 @@ const CreatePhotoModal = (props) => {
             onRequestClose={close}
           >
             <View style={styles.centeredView}>
-              <View style={styles.modalView}>
+              <KeyboardAvoidingView
+                behavior={"padding"}
+                style={styles.modalView}
+              >
                 <View style={styles.modalTop}>
                   <TextInput
                     style={styles.input}
@@ -82,43 +81,28 @@ const CreatePhotoModal = (props) => {
                     placeholder="title"
                     placeholderTextColor="gray"
                   ></TextInput>
-                  <TouchableOpacity
-                    style={{
-                      width: "10%",
-                      height: "50%",
-                      position: "absolute",
-                      right: "0%",
-                    }}
-                  >
+                  <TouchableOpacity style={styles.camera} onPress={getPhoto}>
                     <Image source={plus} style={styles.plusimage}></Image>
                   </TouchableOpacity>
                 </View>
-                <View>
+                <View style={styles.photoView}>
                   {image && (
-                    <Image
-                      source={{ uri: image }}
-                      style={{ width: 50, height: 50 }}
-                    />
+                    <Image source={{ uri: image }} style={styles.photo} />
                   )}
                 </View>
-                <ScrollView
-                  style={{
-                    flex: 1,
-                    height: "100%",
-                    width: "100%",
-                    alignContent: "center",
-                    padding: 20,
-                    margin: 30,
-                  }}
-                >
-                  <TextInput
-                    onChangeText={BodyHandler}
-                    style={styles.bodyinput}
-                    placeholder="body"
-                    placeholderTextColor="gray"
-                  ></TextInput>
-                </ScrollView>
-                <View style={styles.click}>
+                <View style={styles.bodyinputView}>
+                  <ScrollView style={styles.scroll}>
+                    <TextInput
+                      onChangeText={BodyHandler}
+                      style={styles.bodyinput}
+                      placeholder="body"
+                      placeholderTextColor="gray"
+                      multiline={true}
+                      blurOnSubmit={true}
+                    ></TextInput>
+                  </ScrollView>
+                </View>
+                <View style={styles.clickView}>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
                     onPress={onCreateClick}
@@ -132,7 +116,7 @@ const CreatePhotoModal = (props) => {
                     <Text style={styles.textStyle}>close</Text>
                   </Pressable>
                 </View>
-              </View>
+              </KeyboardAvoidingView>
             </View>
           </Modal>
         </View>
@@ -141,20 +125,14 @@ const CreatePhotoModal = (props) => {
   );
 };
 const styles = StyleSheet.create({
-  click: {
-    flex: 0.5,
-    justifyContent: "center",
-    flexDirection: "row",
-  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
   },
-
   modalView: {
-    flex: 0.4,
+    flex: 0.9,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 20,
@@ -169,6 +147,78 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  modalTop: {
+    flex: 1,
+    width: "100%",
+    height: "5%",
+    flexDirection: "row",
+  },
+  input: {
+    height: "100%",
+    width: "80%",
+    position: "absolute",
+    left: "0%",
+    borderWidth: 1,
+    borderColor: "lightgray",
+    textAlign: "center",
+  },
+
+  camera: {
+    width: "10%",
+    height: "100%",
+    position: "absolute",
+    right: "3%",
+  },
+
+  plusimage: {
+    height: "100%",
+    width: "100%",
+    resizeMode: "contain",
+    tintColor: "lightblue",
+  },
+  photoView: {
+    flex: 10,
+    height: "100%",
+    width: "100%",
+
+    margin: 20,
+    justifyContent: "center",
+    alignContent: "center",
+    borderWidth: 1,
+    borderColor: "lightgray",
+  },
+  photo: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    resizeMode: "contain",
+  },
+  bodyinputView: {
+    flex: 5,
+    height: "100%",
+    width: "100%",
+    padding: 10,
+    margin: 10,
+    borderWidth: 1,
+    borderColor: "lightgray",
+  },
+  scroll: {
+    height: "100%",
+    width: "100%",
+    alignContent: "center",
+  },
+
+  bodyinput: {
+    height: "100%",
+    width: "100%",
+    textAlign: "center",
+    alignContent: "center",
+  },
+  clickView: {
+    flex: 2,
+    justifyContent: "center",
+    flexDirection: "row",
   },
   button: {
     borderRadius: 20,
@@ -187,15 +237,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  modalTop: {
-    flex: 0.1,
-    width: "100%",
-    height: "10%",
-    alignContent: "center",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-  },
+
   modalTitle: {
     textAlign: "center",
     fontSize: 30,
@@ -203,35 +245,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "2%",
     color: "lightblue",
-  },
-  plusimage: {
-    height: "500%",
-    width: "100%",
-    right: "5%",
-    resizeMode: "contain",
-    tintColor: "lightblue",
-  },
-  input: {
-    position: "absolute",
-
-    height: "300%",
-    width: "70%",
-    margin: 7,
-    borderWidth: 1,
-    padding: 10,
-    borderColor: "lightgray",
-    textAlign: "center",
-    alignContent: "center",
-    padding: 10,
-  },
-  bodyinput: {
-    height: "700%",
-    width: "100%",
-    borderWidth: 1,
-    borderColor: "lightgray",
-    top: "3%",
-    textAlign: "center",
-    alignContent: "center",
   },
 });
 
