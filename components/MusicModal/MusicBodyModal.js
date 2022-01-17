@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  Alert,
   Modal,
   StyleSheet,
   Text,
   Pressable,
   View,
-  Image,
-  TouchableOpacity,
   ScrollView,
 } from "react-native";
-import plus from "../../assets/plus2.png";
+import { AntDesign } from "@expo/vector-icons";
+import { isLikedMusic, toggleLikeMusic } from "../../api/furnitures";
 
 const MusicBodyModal = (props) => {
+  const [heart, setHeart] = useState(false);
   const { open, close, musics } = props;
   const { id, title, body } = musics;
+
+  const onHeartClick = () => {
+    setHeart(!heart);
+    toggleLikeMusic(id);
+  };
+
+  useEffect(() => {
+    (async () => {
+      setHeart(await isLikedMusic(id));
+    })();
+  }, []);
 
   return (
     <View>
@@ -43,6 +53,21 @@ const MusicBodyModal = (props) => {
                 >
                   <Text> {body} </Text>
                 </ScrollView>
+                {heart ? (
+                  <AntDesign
+                    onPress={onHeartClick}
+                    name="heart"
+                    size={24}
+                    color="red"
+                  />
+                ) : (
+                  <AntDesign
+                    onPress={onHeartClick}
+                    name="hearto"
+                    size={24}
+                    color="black"
+                  />
+                )}
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={close}
