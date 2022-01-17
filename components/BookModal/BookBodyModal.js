@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Alert,
   Modal,
@@ -10,11 +10,24 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import plus from "../../assets/plus2.png";
+import { AntDesign } from "@expo/vector-icons";
+import { isLikedBook, toggleLikeBook } from "../../api/furnitures";
 
 const BookBodyModal = (props) => {
+  const [heart, setHeart] = useState(false);
   const { open, close, books } = props;
   const { id, title, body } = books;
+
+  const onHeartClick = () => {
+    setHeart(!heart);
+    toggleLikeBook(id);
+  };
+
+  useEffect(() => {
+    (async () => {
+      setHeart(await isLikedBook(id));
+    })();
+  }, []);
 
   return (
     <View>
@@ -43,6 +56,21 @@ const BookBodyModal = (props) => {
                 >
                   <Text> {body} </Text>
                 </ScrollView>
+                {heart ? (
+                  <AntDesign
+                    onPress={onHeartClick}
+                    name="heart"
+                    size={24}
+                    color="red"
+                  />
+                ) : (
+                  <AntDesign
+                    onPress={onHeartClick}
+                    name="hearto"
+                    size={24}
+                    color="black"
+                  />
+                )}
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={close}
