@@ -18,18 +18,24 @@ export const createTravel = async (info) => {
 
 export const createPhoto = async (info) => {
   const { title, body, files } = info;
+  console.log(`info`, info);
   const formData = new FormData();
   formData.append("title", title);
   formData.append("body", body);
-  files.forEach((e) => {
-    formData.append("images", e);
+  files.forEach((e, idx) => {
+    formData.append("images", {
+      type: "image/jpg",
+      uri: e,
+      name: "uploaded.jpg",
+    });
   });
 
   const response = await request.post("/furnitures/photos", formData, {
     headers: {
-      ...formData.getHeaders(),
+      // ...formData.getHeaders(),
     },
   });
+  console.log(`response.data`, response.data);
   return response.data;
 };
 

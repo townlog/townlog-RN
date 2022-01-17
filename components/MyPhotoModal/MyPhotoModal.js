@@ -66,7 +66,7 @@ const MyPhotoModal = (props) => {
                   <CreatePhotoModal
                     open={createPhotoModalVisible}
                     close={closeCreatePhotoModal}
-                    getMyMusicList={getMyPhotoList}
+                    getMyPhotoList={getMyPhotoList}
                   ></CreatePhotoModal>
                 </View>
                 <View
