@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createPhoto } from "../../api/furnitures";
-import * as MediaLibrary from "expo-media-library";
+
 import {
   Alert,
   Modal,
@@ -19,8 +19,7 @@ const CreatePhotoModal = (props) => {
   const { open, close, getMyPhotoList } = props;
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [selected, setSelected] = useState();
-  const [allPhotos, setAllPhotos] = useState();
+
   const changeSelected = (photo) => {
     setSelected(photo);
   };
@@ -37,16 +36,7 @@ const CreatePhotoModal = (props) => {
     getMyPhotoList();
     close();
   };
-  const getPhoto = async () => {
-    const { status } = await MediaLibrary.requestPermissionsAsync();
-    const { assets } = await MediaLibrary.getAssetsAsync({
-      mediaType: ["photo"],
-    });
-    const [firstPhoto] = assets;
-    setSelected(firstPhoto);
-    setAllPhotos(assets);
-    Alert.alert(assets[0]);
-  };
+
   return (
     <View>
       {open ? (
@@ -73,7 +63,6 @@ const CreatePhotoModal = (props) => {
                       position: "absolute",
                       right: "0%",
                     }}
-                    onPress={getPhoto}
                   >
                     <Image source={plus} style={styles.plusimage}></Image>
                   </TouchableOpacity>

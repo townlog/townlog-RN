@@ -13,8 +13,8 @@ import study from "../../assets/study.png";
 import book from "../../assets/book.png";
 import photo from "../../assets/photo.jpg";
 import music from "../../assets/recordplayer.png";
-import MyBookModal from "../../components/MyBookModal/MyBookModal";
-import MyMusicModal from "../../components/MyMusicModal/MyMusicModal";
+import BookModal from "../../components/BookModal/BookModal";
+import MusicModal from "../../components/MusicModal/MusicModal";
 import MyPhotoModal from "../../components/MyPhotoModal/MyPhotoModal";
 
 const MyRoomScreen = ({ navigation }) => {
@@ -62,18 +62,22 @@ const MyRoomScreen = ({ navigation }) => {
         >
           <Image source={book} resizeMode="cover" style={styles.furniture} />
         </TouchableOpacity>
-        <MyBookModal
+        <BookModal
           open={bookModalVisible}
           close={closeBookModal}
-        ></MyBookModal>
+          user={null}
+          isFriend={false}
+        ></BookModal>
         <TouchableOpacity
           onPress={openMusicModal}
           style={styles.musictouchable}
         >
-          <MyMusicModal
+          <MusicModal
             open={musicModalVisible}
             close={closeMusicModal}
-          ></MyMusicModal>
+            user={null}
+            isFriend={false}
+          ></MusicModal>
           <Image source={music} resizeMode="cover" style={styles.furniture} />
         </TouchableOpacity>
 
@@ -101,7 +105,7 @@ const styles = StyleSheet.create({
   },
   booktouchable: {
     flex: 1,
-    height: "55%",
+    height: "30%",
     width: "55%",
     position: "absolute",
     top: "27%",
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
   },
   musictouchable: {
     flex: 1,
-    height: "40%",
+    height: "20%",
     width: "40%",
     position: "absolute",
     top: "33%",
@@ -117,7 +121,7 @@ const styles = StyleSheet.create({
   },
   phototouchable: {
     flex: 1,
-    height: "25%",
+    height: "12.5%",
     width: "25%",
     position: "absolute",
     top: "20%",
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
   },
   furniture: {
     resizeMode: "contain",
-    height: "50%",
+    height: "100%",
     width: "100%",
   },
 });

@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import plus from "../../assets/plus2.png";
 const CreateModal = (props) => {
-  const { open, close, getMyItemList, createItem } = props;
+  const { open, close, getItemList, createItem } = props;
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
@@ -26,7 +26,7 @@ const CreateModal = (props) => {
 
   const onCreateClick = async () => {
     await createItem({ title, body });
-    getMyItemList();
+    getItemList();
     close();
   };
 
@@ -47,16 +47,6 @@ const CreateModal = (props) => {
                 placeholder="title"
                 placeholderTextColor="gray"
               ></TextInput>
-              <TouchableOpacity
-                style={{
-                  width: "10%",
-                  height: "50%",
-                  position: "absolute",
-                  right: "0%",
-                }}
-              >
-                <Image source={plus} style={styles.plusimage}></Image>
-              </TouchableOpacity>
             </View>
             <ScrollView
               style={{

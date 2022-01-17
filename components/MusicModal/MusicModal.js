@@ -10,21 +10,28 @@ import {
   TouchableOpacity,
 } from "react-native";
 import plus from "../../assets/plus2.png";
-import MusicList from "./MyMusicList";
-import { getMyMusics } from "../../api/furnitures";
+import MusicList from "./MusicList";
+import { getMyMusics, getFriendMusics } from "../../api/furnitures";
 import CreateMusicModal from "./CreateMusicModal";
 
-const MyMusicModal = (props) => {
+const MusicModal = (props) => {
+  const { open, close, user, isFriend } = props;
+
   const [createMusicModalVisible, setCreateMusicModalVisible] = useState(false);
 
   const [musicItems, setMusicItems] = useState([]);
 
-  const getMyMusicList = async () => {
-    const { musics } = await getMyMusics();
-    setMusicItems(musics);
+  const getMusicList = async () => {
+    if (user === null) {
+      const { musics } = await getMyMusics();
+      setMusicItems(musics);
+    } else {
+      const { musics } = await getFriendMusics(user.id);
+      setMusicItems(musics);
+    }
   };
   useEffect(() => {
-    getMyMusicList();
+    getMusicList();
   }, []);
   const openCreateMusicModal = () => {
     setCreateMusicModalVisible(true);
@@ -32,7 +39,7 @@ const MyMusicModal = (props) => {
   const closeCreateMusicModal = () => {
     setCreateMusicModalVisible(false);
   };
-  const { open, close } = props;
+
   return (
     <View>
       {open ? (
@@ -46,22 +53,31 @@ const MyMusicModal = (props) => {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <View style={styles.modalTop}>
-                  <Text style={styles.modalTitle}>My Music List</Text>
-                  <TouchableOpacity
-                    style={{
-                      width: "10%",
-                      height: "50%",
-                      position: "absolute",
-                      right: "0%",
-                    }}
-                    onPress={openCreateMusicModal}
-                  >
-                    <Image source={plus} style={styles.plusimage}></Image>
-                  </TouchableOpacity>
+                  {isFriend ? (
+                    <Text style={styles.modalTitle}>
+                      {user.nickname}'s Music List
+                    </Text>
+                  ) : (
+                    <>
+                      <Text style={styles.modalTitle}>My Music List</Text>
+                      <TouchableOpacity
+                        style={{
+                          width: "10%",
+                          height: "50%",
+                          position: "absolute",
+                          right: "0%",
+                        }}
+                        onPress={openCreateMusicModal}
+                      >
+                        <Image source={plus} style={styles.plusimage}></Image>
+                      </TouchableOpacity>
+                    </>
+                  )}
+
                   <CreateMusicModal
                     open={createMusicModalVisible}
                     close={closeCreateMusicModal}
-                    getMyMusicList={getMyMusicList}
+                    getMusicList={getMusicList}
                   ></CreateMusicModal>
                 </View>
                 <View
@@ -155,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyMusicModal;
+export default MusicModal;

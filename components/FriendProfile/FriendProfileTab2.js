@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Text, Alert } from "react-native";
 
 const FriendProfileTab2 = ({ user, close }) => {
   const navigation = useNavigation();
