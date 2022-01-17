@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import music from "../../assets/music.png";
 import MusicBodyModal from "./MusicBodyModal";
 
-const MusicItem = ({ musics }) => {
+const MusicItem = ({ musics, user, musicModalclose }) => {
   const { title, body, like } = musics;
   const [musicbodyModalVisible, setmusicbodyModalVisible] = useState(false);
 
@@ -23,8 +23,10 @@ const MusicItem = ({ musics }) => {
       </TouchableOpacity>
       <MusicBodyModal
         open={musicbodyModalVisible}
-        close={closeMusicBodyModal}
+        closeMusicBodyModal={closeMusicBodyModal}
+        musicModalclose={musicModalclose}
         musics={musics}
+        user={user}
       ></MusicBodyModal>
     </View>
   );

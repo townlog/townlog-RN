@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import book from "../../assets/book4.png";
 import BookBodyModal from "./BookBodyModal";
 
-const BookItem = ({ books }) => {
+const BookItem = ({ books, user, bookModalclose }) => {
   const { title, body, like } = books;
   const [bookbodyModalVisible, setbookbodyModalVisible] = useState(false);
 
@@ -23,8 +23,10 @@ const BookItem = ({ books }) => {
       </TouchableOpacity>
       <BookBodyModal
         open={bookbodyModalVisible}
-        close={closeBookBodyModal}
+        closeBookBodyModal={closeBookBodyModal}
+        bookModalclose={bookModalclose}
         books={books}
+        user={user}
       ></BookBodyModal>
     </View>
   );

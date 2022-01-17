@@ -3,11 +3,16 @@ import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import PhotoItem from "./PhotoItem";
 
 const PhotoList = (props) => {
-  const { photoItems } = props;
+  const { photoItems, user, photoModalclose } = props;
   return (
     <View style={styles.container}>
       {photoItems.map((e) => (
-        <PhotoItem key={e.id} photos={e}></PhotoItem>
+        <PhotoItem
+          key={e.id}
+          photo={e}
+          user={user}
+          photoModalclose={photoModalclose}
+        ></PhotoItem>
       ))}
     </View>
   );

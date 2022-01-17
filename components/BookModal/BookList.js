@@ -4,12 +4,17 @@ import { getMyBooks } from "../../api/furnitures";
 import BookItem from "./BookItem";
 
 const BookList = (props) => {
-  const { bookItems } = props;
+  const { bookItems, user, bookModalclose } = props;
 
   return (
     <View style={styles.container}>
       {bookItems.map((e) => (
-        <BookItem key={e.id} books={e}></BookItem>
+        <BookItem
+          key={e.id}
+          books={e}
+          user={user}
+          bookModalclose={bookModalclose}
+        ></BookItem>
       ))}
     </View>
   );

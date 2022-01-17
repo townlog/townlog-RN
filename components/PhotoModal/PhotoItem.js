@@ -3,8 +3,8 @@ import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import camera from "../../assets/camera.png";
 import PhotoBodyModal from "./PhotoBodyModal";
 
-const photoItem = ({ photos }) => {
-  const { title, body, like } = photos;
+const photoItem = ({ photo, user, photoModalclose }) => {
+  const { title, body, like } = photo;
   const [photobodyModalVisible, setphotobodyModalVisible] = useState(false);
 
   const openPhotoBodyModal = () => {
@@ -18,13 +18,15 @@ const photoItem = ({ photos }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.touch} onPress={openPhotoBodyModal}>
-        <Image style={styles.image} source={camera  }></Image>
+        <Image style={styles.image} source={camera}></Image>
         <Text style={styles.photoTitle}>{title}</Text>
       </TouchableOpacity>
       <PhotoBodyModal
         open={photobodyModalVisible}
-        close={closePhotoBodyModal}
-        photos={photos}
+        closePhotoBodyModal={closePhotoBodyModal}
+        photoModalclose={photoModalclose}
+        photo={photo}
+        user={user}
       ></PhotoBodyModal>
     </View>
   );

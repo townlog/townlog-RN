@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Alert,
   Modal,
@@ -11,10 +11,35 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import plus from "../../assets/plus2.png";
+import { isLikedPhoto, toggleLikePhoto } from "../../api/furnitures";
+import LikeModal from "../LikeModal/LikeModal";
 
 const PhotoBodyModal = (props) => {
-  const { open, close, photos } = props;
-  const { id, title, body, images } = photos;
+  const { open, photo, user, closePhotoBodyModal, photoModalclose } = props;
+  const { id, title, body, images, likes } = photo;
+  const [heart, setHeart] = useState(false);
+  const onHeartClick = () => {
+    setHeart(!heart);
+    toggleLikePhoto(id);
+  };
+
+  const [LikeModalVisible, setLikeModalVisible] = useState(false);
+
+  const openLikeModal = () => {
+    setLikeModalVisible(true);
+  };
+
+  const closeLikeModal = () => {
+    setLikeModalVisible(false);
+  };
+
+  useEffect(() => {
+    (async () => {
+      setHeart(await isLikedPhoto(id));
+    })();
+  }, []);
   return (
     <View>
       {open ? (
@@ -23,7 +48,7 @@ const PhotoBodyModal = (props) => {
             animationType="slide"
             transparent={true}
             visible={open}
-            onRequestClose={close}
+            onRequestClose={closePhotoBodyModal}
           >
             <View style={styles.centeredView}>
               <KeyboardAvoidingView
@@ -44,13 +69,45 @@ const PhotoBodyModal = (props) => {
                     <Text style={styles.bodyinput}>{body}</Text>
                   </ScrollView>
                 </View>
+                {user === null ? (
+                  <>
+                    <AntDesign
+                      onPress={openLikeModal}
+                      name="heart"
+                      size={24}
+                      color="red"
+                    />
+                    <LikeModal
+                      open={LikeModalVisible}
+                      closeLikeModal={closeLikeModal}
+                      closeBodyModal={closePhotoBodyModal}
+                      Modalclose={photoModalclose}
+                      likes={likes}
+                    ></LikeModal>
+                  </>
+                ) : heart ? (
+                  <AntDesign
+                    onPress={onHeartClick}
+                    name="heart"
+                    size={24}
+                    color="red"
+                  />
+                ) : (
+                  <AntDesign
+                    onPress={onHeartClick}
+                    name="hearto"
+                    size={24}
+                    color="black"
+                  />
+                )}
+
                 <View style={styles.clickView}>
                   <Pressable style={[styles.button, styles.buttonClose]}>
                     <Text style={styles.textStyle}>좋아요</Text>
                   </Pressable>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
-                    onPress={close}
+                    onPress={closePhotoBodyModal}
                   >
                     <Text style={styles.textStyle}>close</Text>
                   </Pressable>
@@ -96,11 +153,9 @@ const styles = StyleSheet.create({
   },
   input: {
     height: "100%",
-    width: "80%",
+    width: "100%",
     position: "absolute",
     left: "0%",
-    borderWidth: 2,
-    borderColor: "lightblue",
     textAlign: "center",
     fontSize: 20,
     padding: 5,
@@ -182,7 +237,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "2%",
     color: "lightblue",
-    fontFamily: "sinbifont",
   },
 });
 

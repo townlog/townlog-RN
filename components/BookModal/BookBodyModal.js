@@ -12,15 +12,26 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { isLikedBook, toggleLikeBook } from "../../api/furnitures";
+import LikeModal from "../LikeModal/LikeModal";
 
 const BookBodyModal = (props) => {
   const [heart, setHeart] = useState(false);
-  const { open, close, books } = props;
-  const { id, title, body } = books;
+  const { open, books, user, closeBookBodyModal, bookModalclose } = props;
+  const { id, title, body, likes } = books;
 
   const onHeartClick = () => {
     setHeart(!heart);
     toggleLikeBook(id);
+  };
+
+  const [LikeModalVisible, setLikeModalVisible] = useState(false);
+
+  const openLikeModal = () => {
+    setLikeModalVisible(true);
+  };
+
+  const closeLikeModal = () => {
+    setLikeModalVisible(false);
   };
 
   useEffect(() => {
@@ -37,7 +48,7 @@ const BookBodyModal = (props) => {
             animationType="slide"
             transparent={true}
             visible={open}
-            onRequestClose={close}
+            onRequestClose={closeBookBodyModal}
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
@@ -56,7 +67,23 @@ const BookBodyModal = (props) => {
                 >
                   <Text> {body} </Text>
                 </ScrollView>
-                {heart ? (
+                {user === null ? (
+                  <>
+                    <AntDesign
+                      onPress={openLikeModal}
+                      name="heart"
+                      size={24}
+                      color="red"
+                    />
+                    <LikeModal
+                      open={LikeModalVisible}
+                      closeLikeModal={closeLikeModal}
+                      closeBodyModal={closeBookBodyModal}
+                      Modalclose={bookModalclose}
+                      likes={likes}
+                    ></LikeModal>
+                  </>
+                ) : heart ? (
                   <AntDesign
                     onPress={onHeartClick}
                     name="heart"
@@ -71,9 +98,10 @@ const BookBodyModal = (props) => {
                     color="black"
                   />
                 )}
+
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={close}
+                  onPress={closeBookBodyModal}
                 >
                   <Text style={styles.textStyle}>close</Text>
                 </Pressable>

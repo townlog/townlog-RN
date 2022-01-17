@@ -89,7 +89,11 @@ const MusicModal = (props) => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <MusicList musicItems={musicItems}></MusicList>
+                  <MusicList
+                    musicItems={musicItems}
+                    musicModalclose={close}
+                    user={user}
+                  ></MusicList>
                 </View>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
