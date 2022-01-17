@@ -15,6 +15,7 @@ import { getMyPhotos } from "../../api/furnitures";
 import CreatePhotoModal from "./CreatePhotoModal";
 
 const MyPhotoModal = (props) => {
+  const { open, close } = props;
   const [createPhotoModalVisible, setCreatePhotoModalVisible] = useState(false);
 
   const [photoItems, setPhotoItems] = useState([]);
@@ -32,7 +33,11 @@ const MyPhotoModal = (props) => {
   const closeCreatePhotoModal = () => {
     setCreatePhotoModalVisible(false);
   };
-  const { open, close } = props;
+
+  const getPermission = async () => {
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    const media = await MediaLibrary.getAssetsAsync({ mediaType: ["photo"] });
+  };
   return (
     <View>
       {open ? (
