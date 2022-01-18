@@ -9,3 +9,7 @@ export const saveJwt = async (value) => {
 export const getJwt = async () => {
   return await SecureStore.getItemAsync(JWT);
 };
+
+export const deleteJwt = async () => {
+  return await SecureStore.deleteItemAsync(JWT);
+};

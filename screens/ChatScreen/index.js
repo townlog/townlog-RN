@@ -19,33 +19,36 @@ const ChatScreen = ({ navigation, route }) => {
   const { roomId: tempRoomId, friend } = route.params;
   const [roomId, setRoomId] = useState("");
   const [messages, setMessages] = useState([]);
+  const [user, setUser] = useState({});
 
   const [payload, setPayload] = useState("");
-  const socket = useRef(io("http://143.248.229.88:5000"));
+  const socket = useRef(io("http://192.168.156.97:5000"));
   const onChangeHandler = (e) => {
     setPayload(e);
   };
 
   const buttonClickHandler = async () => {
-    // if (!roomId) {
-    //   const data = await sendMessageWithCreation({
-    //     friendId: friend.id,
-    //     payload,
-    //   });
-    //   setRoomId(data?.roomId);
-    // } else {
-    Alert.alert(socket.current);
-    socket.current.emit("send", { user, roomId, payload });
-    // }
+    if (!roomId) {
+      const data = await sendMessageWithCreation({
+        friendId: friend.id,
+        payload,
+      });
+      setRoomId(data?.roomId);
+    } else {
+      socket.current.emit("send", { user, roomId, payload });
+      setMessages([...messages, { user, roomId, payload }]);
+      setPayload("");
+    }
   };
 
   useEffect(() => {
     setRoomId(tempRoomId);
     (async () => {
-      const { user } = await getMe();
+      const { user: tempUser } = await getMe();
+      setUser(tempUser);
 
       if (roomId) {
-        socket.current.emit("join", { user, roomId });
+        socket.current.emit("join", { user: tempUser, roomId });
 
         socket.current.on("receive", (e) => {
           setMessages([...messages, e]);
@@ -58,7 +61,7 @@ const ChatScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <View
         style={{
-          flex: 0.1,
+          flex: 3,
           margin: 30,
           padding: 20,
         }}
