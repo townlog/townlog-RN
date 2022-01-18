@@ -1,12 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Alert } from "react-native";
+import { getRoomId } from "../../api/chat";
 
 const FriendProfileTab2 = ({ user, close }) => {
   const navigation = useNavigation();
 
   const RoomPressHandler = () => {
     navigation.getParent().navigate("FriendRoom", { user });
+    close();
+  };
+
+  const ChatPressHandler = async () => {
+    const { roomId } = await getRoomId(user.id);
+    navigation.getParent().navigate("Chat", { roomId, friend: user });
     close();
   };
 
@@ -26,6 +33,12 @@ const FriendProfileTab2 = ({ user, close }) => {
           style={[styles.button, styles.buttonBody]}
         >
           <Text style={styles.textStyle}>방 구경</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={ChatPressHandler}
+          style={[styles.button, styles.buttonBody]}
+        >
+          <Text style={styles.textStyle}>채팅</Text>
         </TouchableOpacity>
       </View>
     </View>

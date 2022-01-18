@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -11,38 +11,54 @@ import {
 } from "react-native";
 
 import io from "socket.io-client";
+import { getMe } from "../../api/user";
+import { sendMessageWithCreation } from "../../api/chat";
 import MyChatItem from "../../components/ChatModal/MyChatItem";
 
-const ChatScreen = ({ navigation }) => {
+const ChatScreen = ({ navigation, route }) => {
+  const { roomId: tempRoomId, friend } = route.params;
+  const [roomId, setRoomId] = useState("");
   const [messages, setMessages] = useState([]);
 
-  const [userInput, setUserInput] = useState("");
-
+  const [payload, setPayload] = useState("");
+  const socket = useRef(io("http://143.248.229.88:5000"));
   const onChangeHandler = (e) => {
-    setUserInput(e);
+    setPayload(e);
   };
 
-  const buttonClickHandler = () => {
-    setUserInput("");
-    const e = { message: userInput };
-    setMessages([...messages, e]);
+  const buttonClickHandler = async () => {
+    // if (!roomId) {
+    //   const data = await sendMessageWithCreation({
+    //     friendId: friend.id,
+    //     payload,
+    //   });
+    //   setRoomId(data?.roomId);
+    // } else {
+    Alert.alert(socket.current);
+    socket.current.emit("send", { user, roomId, payload });
+    // }
   };
 
   useEffect(() => {
-    const socket = io("http://143.248.229.80:5000");
+    setRoomId(tempRoomId);
+    (async () => {
+      const { user } = await getMe();
 
-    socket.emit("join", { user: { id: 1 }, roomId: 1 });
+      if (roomId) {
+        socket.current.emit("join", { user, roomId });
 
-    socket.on("receive", (e) => {
-      setMessages([...messages, e]);
-    });
-  }, []);
+        socket.current.on("receive", (e) => {
+          setMessages([...messages, e]);
+        });
+      }
+    })();
+  }, [roomId, socket.current]);
 
   return (
     <View style={styles.container}>
       <View
         style={{
-          flex: 3,
+          flex: 0.1,
           margin: 30,
           padding: 20,
         }}
@@ -50,13 +66,13 @@ const ChatScreen = ({ navigation }) => {
         <ScrollView>
           <Text style={styles.title}>채팅방</Text>
           {messages.map((e) => (
-            <MyChatItem text={e.message}></MyChatItem>
+            <MyChatItem text={e.payload}></MyChatItem>
           ))}
         </ScrollView>
       </View>
       <View style={{ flex: 1, justifyContent: "center" }}>
         <TextInput
-          value={userInput}
+          value={payload}
           placeholderTextColor="lightgray"
           style={styles.input}
           onChangeText={onChangeHandler}
