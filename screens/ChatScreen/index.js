@@ -13,7 +13,7 @@ import {
 
 import io from "socket.io-client";
 import { getMe } from "../../api/user";
-import { sendMessageWithCreation } from "../../api/chat";
+import { seeRoom, sendMessageWithCreation } from "../../api/chat";
 import MyChatItem from "../../components/ChatModal/MyChatItem";
 import FriendChatItem from "../../components/ChatModal/FriendChatItem";
 
@@ -50,6 +50,11 @@ const ChatScreen = ({ navigation, route }) => {
       setUser(tempUser);
 
       if (roomId) {
+        const {
+          room: { messages },
+        } = await seeRoom(roomId);
+        setMessages(messages);
+
         socket.current.emit("join", { user: tempUser, roomId });
 
         socket.current.on("receive", (e) => {

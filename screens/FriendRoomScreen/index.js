@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import background from "../../assets/room4.png";
-import study from "../../assets/study.png";
+import study from "../../assets/people1.png";
 import book from "../../assets/book.png";
 import photo from "../../assets/photo.jpg";
 import music from "../../assets/recordplayer.png";
@@ -97,10 +97,7 @@ const FriendRoomScreen = ({ navigation, route }) => {
           <Image source={photo} resizeMode="cover" style={styles.furniture} />
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={openPhotoModal}
-          style={styles.studytouchable}
-        >
+        <TouchableOpacity onPress={openPhotoModal} style={styles.todotouchable}>
           <TodoModal
             open={photoModalVisible}
             close={closePhotoModal}
@@ -157,6 +154,14 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     height: "100%",
     width: "100%",
+  },
+  todotouchable: {
+    flex: 1,
+    height: "30%",
+    width: "60%",
+    position: "absolute",
+    top: "50%",
+    right: "20%",
   },
 });
 
