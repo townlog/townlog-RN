@@ -3,12 +3,13 @@ import { makeFriendRequest } from "../../api/friend.js";
 import { StyleSheet, TouchableOpacity, View, Text, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const MyChatItem = ({ text }) => {
+const FriendChatItem = ({ text, friend }) => {
   return (
     <View style={styles.container}>
       <View style={styles.chat}>
         <Text style={styles.text}>{text}</Text>
       </View>
+      <Text style={{ fontWeight: "bold" }}>{friend.nickname}</Text>
     </View>
   );
 };
@@ -16,14 +17,15 @@ const MyChatItem = ({ text }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
+    height: "100%",
+    width: "100%",
     marginVertical: 20,
   },
   chat: {
-    backgroundColor: "white",
+    backgroundColor: "lightgray",
     borderRadius: 10,
     position: "absolute",
-    right: "0%",
+    left: "0%",
     width: "90%",
     height: "auto",
     padding: 10,
@@ -43,4 +45,4 @@ const styles = StyleSheet.create({
     color: "black",
   },
 });
-export default MyChatItem;
+export default FriendChatItem;

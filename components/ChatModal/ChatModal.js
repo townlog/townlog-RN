@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   StyleSheet,
@@ -7,10 +7,21 @@ import {
   View,
   ScrollView,
 } from "react-native";
+import { getMyRooms } from "../../api/chat";
 import ChatRoomProfile from "./ChatRoomProfile";
 
 const ChatModal = (props) => {
   const { open, close } = props;
+  const [roomList, setRoomList] = useState([]);
+
+  const getRoomList = async () => {
+    const { rooms } = await getMyRooms();
+    setRoomList(rooms);
+  };
+
+  useEffect(() => {
+    getRoomList();
+  }, []);
 
   return (
     <View>
@@ -36,10 +47,13 @@ const ChatModal = (props) => {
                   }}
                 >
                   <ScrollView style={{ width: "100%", height: "100%" }}>
-                    <ChatRoomProfile
-                      style={styles.profile}
-                      close={close}
-                    ></ChatRoomProfile>
+                    {roomList.map((e) => (
+                      <ChatRoomProfile
+                        room={e}
+                        style={styles.profile}
+                        close={close}
+                      ></ChatRoomProfile>
+                    ))}
                   </ScrollView>
                 </View>
                 <View style={{ flex: 1.3 }}>
