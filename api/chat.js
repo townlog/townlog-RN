@@ -6,7 +6,7 @@ export const getRoomId = async (friendId) => {
   return response.data;
 };
 
-export const sendMessageWithCreation = ({ friendId, payload }) => {
+export const sendMessageWithCreation = async ({ friendId, payload }) => {
   const response = await request.post("/chat", {
     friendId,
     payload,
@@ -15,13 +15,13 @@ export const sendMessageWithCreation = ({ friendId, payload }) => {
   return response.data;
 };
 
-export const getMyRooms = () => {
+export const getMyRooms = async () => {
   const response = await request.get("/chat/rooms");
 
   return response.data;
 };
 
-export const seeRoom = (roomId) => {
+export const seeRoom = async (roomId) => {
   const response = await request.get(`/chat/rooms/${roomId}`);
 
   return response.data;
