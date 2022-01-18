@@ -12,9 +12,12 @@ import background from "../../assets/town.png";
 import home from "../../assets/home2.png";
 import friendicon from "../../assets/friendicon2.png";
 import FriendModal from "../../components/FriendModal/FriendModal";
+import chaticon from "../../assets/chaticon.png";
+import ChatModal from "../../components/ChatModal/ChatModal";
 
 const HomeScreen = ({ navigation }) => {
   const [FriendModalVisible, setFriendModalVisible] = useState(false);
+  const [chatModalVisible, setChatModalVisible] = useState(false);
 
   const openFriendModal = () => {
     setFriendModalVisible(true);
@@ -28,8 +31,12 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate("MyRoom");
   };
 
-  const FriendClickHandler = () => {
-    Alert.alert("Friend");
+  const openChatModal = () => {
+    setChatModalVisible(true);
+  };
+
+  const closeChatModal = () => {
+    setChatModalVisible(false);
   };
 
   return (
@@ -53,8 +60,13 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
         <FriendModal
           open={FriendModalVisible}
-          close={setFriendModalVisible}
+          close={closeFriendModal}
         ></FriendModal>
+
+        <TouchableOpacity style={styles.chaticonstyle} onPress={openChatModal}>
+          <Image source={chaticon} resizeMode="cover" style={styles.chat} />
+        </TouchableOpacity>
+        <ChatModal open={chatModalVisible} close={closeChatModal}></ChatModal>
       </ImageBackground>
     </View>
   );
@@ -83,6 +95,14 @@ const styles = StyleSheet.create({
     top: "5%",
     right: "0%",
   },
+  chaticonstyle: {
+    flex: 1,
+    height: "10%",
+    width: "20%",
+    position: "absolute",
+    top: "15%",
+    right: "1%",
+  },
   text: {
     color: "white",
     fontSize: 42,
@@ -101,6 +121,12 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     resizeMode: "contain",
+  },
+  chat: {
+    height: "100%",
+    width: "100%",
+    resizeMode: "contain",
+    position: "absolute",
   },
 });
 

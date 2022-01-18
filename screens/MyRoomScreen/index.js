@@ -9,13 +9,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import background from "../../assets/room4.png";
-import study from "../../assets/study.png";
+import study from "../../assets/people2.png";
 import book from "../../assets/book.png";
 import photo from "../../assets/photo.jpg";
 import music from "../../assets/recordplayer.png";
 import BookModal from "../../components/BookModal/BookModal";
 import MusicModal from "../../components/MusicModal/MusicModal";
 import PhotoModal from "../../components/PhotoModal/PhotoModal";
+import TodoModal from "../../components/TodoModal/TodoModal";
 
 const MyRoomScreen = ({ navigation }) => {
   const [bookModalVisible, setbookModalVisible] = useState(false);
@@ -46,6 +47,16 @@ const MyRoomScreen = ({ navigation }) => {
 
   const closePhotoModal = () => {
     setPhotoModalVisible(false);
+  };
+
+  const [todoModalVisible, setTodoModalVisible] = useState(false);
+
+  const openTodoModal = () => {
+    setTodoModalVisible(true);
+  };
+
+  const closeTodoModal = () => {
+    setTodoModalVisible(false);
   };
 
   return (
@@ -93,6 +104,16 @@ const MyRoomScreen = ({ navigation }) => {
           ></PhotoModal>
           <Image source={photo} resizeMode="cover" style={styles.furniture} />
         </TouchableOpacity>
+
+        <TouchableOpacity onPress={openTodoModal} style={styles.todotouchable}>
+          <TodoModal
+            open={todoModalVisible}
+            close={closeTodoModal}
+            user={null}
+            isFriend={false}
+          ></TodoModal>
+          <Image source={study} resizeMode="cover" style={styles.furniture} />
+        </TouchableOpacity>
       </ImageBackground>
     </View>
   );
@@ -128,6 +149,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "20%",
     left: "5%",
+  },
+  todotouchable: {
+    flex: 1,
+    height: "30%",
+    width: "60%",
+    position: "absolute",
+    top: "50%",
+    right: "20%",
   },
   text: {
     color: "white",
