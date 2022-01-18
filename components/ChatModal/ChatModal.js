@@ -1,34 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-  StyleSheet,
-  View,
   Modal,
+  StyleSheet,
   Text,
   Pressable,
+  View,
   ScrollView,
 } from "react-native";
-import LikeUserProfile from "./LikeUserProfile";
-const LikeModal = (props) => {
-  const { open, likes, closeLikeModal, closeBodyModal, Modalclose } = props;
+import ChatRoomProfile from "./ChatRoomProfile";
+
+const ChatModal = (props) => {
+  const { open, close } = props;
 
   return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
+    <View>
       {open ? (
         <View style={styles.centeredView}>
           <Modal
             animationType="slide"
             transparent={true}
             visible={open}
-            onRequestClose={closeLikeModal}
+            onRequestClose={close}
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <View style={styles.modalTop}>
-                  <Text style={styles.modalTitle}>Like List</Text>
+                  <Text style={styles.modalTitle}>Chat Rooms</Text>
                 </View>
                 <View
                   style={{
@@ -39,20 +36,16 @@ const LikeModal = (props) => {
                   }}
                 >
                   <ScrollView style={{ width: "100%", height: "100%" }}>
-                    {likes.map((e) => (
-                      <LikeUserProfile
-                        user={e}
-                        closeLikeModal={closeLikeModal}
-                        closeBodyModal={closeBodyModal}
-                        Modalclose={Modalclose}
-                      />
-                    ))}
+                    <ChatRoomProfile
+                      style={styles.profile}
+                      close={close}
+                    ></ChatRoomProfile>
                   </ScrollView>
                 </View>
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1.3 }}>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
-                    onPress={closeLikeModal}
+                    onPress={close}
                   >
                     <Text style={styles.textStyle}>close</Text>
                   </Pressable>
@@ -184,5 +177,4 @@ const styles = StyleSheet.create({
     color: "lightblue",
   },
 });
-
-export default LikeModal;
+export default ChatModal;

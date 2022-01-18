@@ -16,6 +16,7 @@ import music from "../../assets/recordplayer.png";
 import BookModal from "../../components/BookModal/BookModal";
 import MusicModal from "../../components/MusicModal/MusicModal";
 import PhotoModal from "../../components/PhotoModal/PhotoModal";
+import TodoModal from "../../components/TodoModal/TodoModal";
 
 const FriendRoomScreen = ({ navigation, route }) => {
   const { user } = route.params;
@@ -94,6 +95,19 @@ const FriendRoomScreen = ({ navigation, route }) => {
             isFriend={true}
           ></PhotoModal>
           <Image source={photo} resizeMode="cover" style={styles.furniture} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={openPhotoModal}
+          style={styles.studytouchable}
+        >
+          <TodoModal
+            open={photoModalVisible}
+            close={closePhotoModal}
+            user={user}
+            isFriend={true}
+          ></TodoModal>
+          <Image source={study} resizeMode="cover" style={styles.furniture} />
         </TouchableOpacity>
       </ImageBackground>
     </View>
