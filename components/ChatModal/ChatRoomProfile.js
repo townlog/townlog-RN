@@ -2,17 +2,17 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Alert } from "react-native";
 
-const ChatRoomProfile = ({ close }) => {
+const ChatRoomProfile = ({ close, room }) => {
   const navigation = useNavigation();
 
   const RoomPressHandler = () => {
-    navigation.navigate("Chat");
+    navigation.navigate("Chat", { roomId: room.id, friend: room.user });
     close();
   };
 
   return (
     <View style={styles.profile}>
-      <Text style={styles.title}>s 님과의 대화"</Text>
+      <Text style={styles.title}>{room.user.nickname} 님과의 대화"</Text>
       <View
         style={{
           flex: 1,

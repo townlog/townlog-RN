@@ -8,12 +8,14 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 
 import io from "socket.io-client";
 import { getMe } from "../../api/user";
 import { sendMessageWithCreation } from "../../api/chat";
 import MyChatItem from "../../components/ChatModal/MyChatItem";
+import FriendChatItem from "../../components/ChatModal/FriendChatItem";
 
 const ChatScreen = ({ navigation, route }) => {
   const { roomId: tempRoomId, friend } = route.params;
@@ -22,7 +24,7 @@ const ChatScreen = ({ navigation, route }) => {
   const [user, setUser] = useState({});
 
   const [payload, setPayload] = useState("");
-  const socket = useRef(io("http://192.168.156.97:5000"));
+  const socket = useRef(io("http://54.180.116.252"));
   const onChangeHandler = (e) => {
     setPayload(e);
   };
@@ -51,7 +53,7 @@ const ChatScreen = ({ navigation, route }) => {
         socket.current.emit("join", { user: tempUser, roomId });
 
         socket.current.on("receive", (e) => {
-          setMessages([...messages, e]);
+          setMessages((msg) => msg.concat(e));
         });
       }
     })();
@@ -61,21 +63,38 @@ const ChatScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <View
         style={{
-          flex: 3,
-          margin: 30,
-          padding: 20,
+          flex: 7,
+          margin: 10,
+          padding: 10,
+          justifyContent: "center",
         }}
       >
-        <ScrollView>
-          <Text style={styles.title}>채팅방</Text>
+        <Text style={styles.title}>{friend.nickname}님과의 대화</Text>
+        <ScrollView
+          style={{ flex: 1, padding: 10, width: "100%", height: "100%" }}
+        >
           {messages.map((e) => (
-            <MyChatItem text={e.payload}></MyChatItem>
+            // <MyChatItem text={e.payload}></MyChatItem>
+            <>
+              {e.user.id === user.id ? (
+                <MyChatItem text={e.payload}></MyChatItem>
+              ) : (
+                <FriendChatItem
+                  text={e.payload}
+                  friend={friend}
+                ></FriendChatItem>
+              )}
+            </>
           ))}
         </ScrollView>
       </View>
-      <View style={{ flex: 1, justifyContent: "center" }}>
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={{ flex: 1, justifyContent: "center", flexDirection: "row" }}
+      >
         <TextInput
           value={payload}
+          placeholder="채팅을 입력하세요."
           placeholderTextColor="lightgray"
           style={styles.input}
           onChangeText={onChangeHandler}
@@ -84,21 +103,26 @@ const ChatScreen = ({ navigation, route }) => {
           style={[styles.button, styles.buttonSearch]}
           onPress={buttonClickHandler}
         >
-          <Text style={{ textAlign: "center" }}>Submit</Text>
+          <Text style={{ color: "white", textAlign: "center" }}>Submit</Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
+    height: "100%",
   },
   title: {
     fontSize: 30,
-    margin: 15,
+    marginTop: 20,
     padding: 10,
+    width: "100%",
     textAlign: "center",
+    fontWeight: "bold",
+    color: "lightblue",
   },
   button: {
     margin: 7,
@@ -111,7 +135,7 @@ const styles = StyleSheet.create({
   },
 
   buttonSearch: {
-    backgroundColor: "lightgray",
+    backgroundColor: "lightblue",
     top: "3%",
   },
   input: {
@@ -122,6 +146,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: "lightgray",
     top: "3%",
+    backgroundColor: "white",
   },
 });
 
